@@ -2,7 +2,10 @@ package pl.flezy.itemsblocker.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
+import co.aikar.commands.PaperCommandCompletions;
+import co.aikar.commands.PaperCommandManager;
 import co.aikar.commands.annotation.*;
+import com.google.common.collect.ImmutableList;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
@@ -11,13 +14,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffectType;
 import pl.flezy.itemsblocker.ItemsBlocker;
 
-import java.util.List;
-
 @CommandAlias("block|itemsblocker")
 @CommandPermission("op")
 public class BlockCommand extends BaseCommand {
-    private final List<Enchantment> enchantment = Registry.ENCHANTMENT.stream().toList();
-
 
     @HelpCommand
     public void doHelp(CommandSender sender, CommandHelp help) {
@@ -47,7 +46,7 @@ public class BlockCommand extends BaseCommand {
     @Subcommand("enchantment add")
     @CommandCompletion("@enchantments")
     public void addEnchant(CommandSender sender,  String enchantName, Integer level){
-        Enchantment enchant = Registry.ENCHANTMENT.get(new NamespacedKey(enchantName,NamespacedKey.MINECRAFT));
+        Enchantment enchant = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
             sender.sendMessage("§cTen enchantment nie istnieje");
         }
@@ -59,7 +58,7 @@ public class BlockCommand extends BaseCommand {
     @Subcommand("enchantment remove")
     @CommandCompletion("@enchantments")
     public void removeEnchant(CommandSender sender, String enchantName){
-        Enchantment enchant = Registry.ENCHANTMENT.get(new NamespacedKey(enchantName,NamespacedKey.MINECRAFT));
+        Enchantment enchant = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
             sender.sendMessage("§cTen enchantment nie istnieje");
         }
@@ -73,13 +72,25 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("potion add")
-    public void addPotion(CommandSender sender, PotionEffectType potion, Integer level){
+    @CommandCompletion("@potionEffects")
+    public void addPotion(CommandSender sender, String potionName, Integer level){
+        PotionEffectType potion = Registry.POTION_EFFECT_TYPE.get(NamespacedKey.minecraft(potionName));
+        if (potion == null) {
+            sender.sendMessage("§cTen efekt nie istnieje");
+        }
+
         ItemsBlocker.instance().dataConfiguration().blockedPotions.put(potion,level-1);
         sender.sendMessage("§eEfekt "+potion.getKey()+" został zablokowany od poziomu "+level);
     }
 
     @Subcommand("potion remove")
-    public void removePotion(CommandSender sender, PotionEffectType potion){
+    @CommandCompletion("@potionEffects")
+    public void removePotion(CommandSender sender, String potionName){
+        PotionEffectType potion = Registry.POTION_EFFECT_TYPE.get(NamespacedKey.minecraft(potionName));
+        if (potion == null) {
+            sender.sendMessage("§cTen efekt nie istnieje");
+        }
+
         if (ItemsBlocker.instance().dataConfiguration().blockedPotions.containsKey(potion)){
             sender.sendMessage("§cTen efekt nie jest zablokowany");
         }
