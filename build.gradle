@@ -37,9 +37,9 @@ dependencies {
 }
 
 shadowJar {
-    relocate("eu.okaeri", "com.epicplayera10.exampleplugin.libs.eu.okaeri")
-    relocate("co.aikar.commands", "com.epicplayera10.exampleplugin.libs.acf")
-    relocate("co.aikar.locales", "com.epicplayera10.exampleplugin.libs.locales")
+    relocate("eu.okaeri", "pl.flezy.itemsblocker.libs.eu.okaeri")
+    relocate("co.aikar.commands", "pl.flezy.itemsblocker.libs.acf")
+    relocate("co.aikar.locales", "pl.flezy.itemsblocker.libs.locales")
 }
 
 assemble.dependsOn(shadowJar)

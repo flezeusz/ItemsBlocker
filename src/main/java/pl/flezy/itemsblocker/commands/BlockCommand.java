@@ -2,19 +2,23 @@ package pl.flezy.itemsblocker.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.HelpCommand;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffectType;
 import pl.flezy.itemsblocker.ItemsBlocker;
 
+import java.util.List;
+
 @CommandAlias("block|itemsblocker")
 @CommandPermission("op")
 public class BlockCommand extends BaseCommand {
+    private final List<Enchantment> enchantment = Registry.ENCHANTMENT.stream().toList();
+
+
     @HelpCommand
     public void doHelp(CommandSender sender, CommandHelp help) {
         help.showHelp();
@@ -41,13 +45,29 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("enchantment add")
-    public void addEnchant(CommandSender sender, Enchantment enchant, Integer level){
+    @CommandCompletion("@enchantments")
+    public void addEnchant(CommandSender sender,  String enchantName, Integer level){
+        Enchantment enchant = Registry.ENCHANTMENT.get(new NamespacedKey(enchantName,NamespacedKey.MINECRAFT));
+        if (enchant == null) {
+            sender.sendMessage("§cTen enchantment nie istnieje");
+        }
+
         ItemsBlocker.instance().dataConfiguration().blockedEnchants.put(enchant,level);
         sender.sendMessage("§eEnchantment "+enchant.getKey()+" został zablokowany od poziomu "+level);
     }
 
-    @Subcommand("enchantment add")
-    public void removeEnchant(CommandSender sender, Enchantment enchant){
+    @Subcommand("enchantment remove")
+    @CommandCompletion("@enchantments")
+    public void removeEnchant(CommandSender sender, String enchantName){
+        Enchantment enchant = Registry.ENCHANTMENT.get(new NamespacedKey(enchantName,NamespacedKey.MINECRAFT));
+        if (enchant == null) {
+            sender.sendMessage("§cTen enchantment nie istnieje");
+        }
+
+        if (ItemsBlocker.instance().dataConfiguration().blockedEnchants.containsKey(enchant)){
+            sender.sendMessage("§cTen enchant nie jest zablokowany");
+        }
+
         ItemsBlocker.instance().dataConfiguration().blockedEnchants.remove(enchant);
         sender.sendMessage("§eEnchantment "+enchant.getKey()+" został odblokowany");
     }
@@ -60,6 +80,10 @@ public class BlockCommand extends BaseCommand {
 
     @Subcommand("potion remove")
     public void removePotion(CommandSender sender, PotionEffectType potion){
+        if (ItemsBlocker.instance().dataConfiguration().blockedPotions.containsKey(potion)){
+            sender.sendMessage("§cTen efekt nie jest zablokowany");
+        }
+
         ItemsBlocker.instance().dataConfiguration().blockedPotions.remove(potion);
         sender.sendMessage("§eEfekt "+potion.getKey()+" został odblokowany");
     }
