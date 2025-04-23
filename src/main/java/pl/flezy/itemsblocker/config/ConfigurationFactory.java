@@ -1,6 +1,6 @@
-package com.epicplayera10.exampleplugin.config;
+package pl.flezy.itemsblocker.config;
 
-import com.epicplayera10.exampleplugin.ExamplePlugin;
+import pl.flezy.itemsblocker.ItemsBlocker;
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.serdes.commons.SerdesCommons;
 import eu.okaeri.configs.validator.okaeri.OkaeriValidator;
@@ -23,7 +23,7 @@ public class ConfigurationFactory {
             });
 
             it.withBindFile(dataConfigurationFile);
-            it.withLogger(ExamplePlugin.instance().getLogger());
+            it.withLogger(ItemsBlocker.instance().getLogger());
             it.saveDefaults();
             it.load(true);
         });
