@@ -14,9 +14,13 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffectType;
 import pl.flezy.itemsblocker.ItemsBlocker;
 
+import javax.annotation.Nullable;
+
 @CommandAlias("block|itemsblocker")
 @CommandPermission("op")
 public class BlockCommand extends BaseCommand {
+
+    private final ItemsBlocker plugin = ItemsBlocker.instance();
 
     @HelpCommand
     public void doHelp(CommandSender sender, CommandHelp help) {
@@ -25,33 +29,37 @@ public class BlockCommand extends BaseCommand {
 
     @Subcommand("item add")
     public void addItem(CommandSender sender, Material material){
-        if (ItemsBlocker.instance().dataConfiguration().blockedMaterials.contains(material)){
+        if (plugin.dataConfiguration().blockedMaterials.contains(material)){
             sender.sendMessage("§cTen item jest już zablokowany");
             return;
         }
-        ItemsBlocker.instance().dataConfiguration().blockedMaterials.add(material);
+        plugin.dataConfiguration().blockedMaterials.add(material);
+        plugin.dataConfiguration().save();
         sender.sendMessage("§eItem "+material.toString()+" został zablokowany");
     }
 
     @Subcommand("item remove")
     public void removeItem(CommandSender sender, Material material){
-        if (!ItemsBlocker.instance().dataConfiguration().blockedMaterials.contains(material)){
+        if (!plugin.dataConfiguration().blockedMaterials.contains(material)){
             sender.sendMessage("§cTen item nie jest zablokowany");
             return;
         }
-        ItemsBlocker.instance().dataConfiguration().blockedMaterials.add(material);
+        plugin.dataConfiguration().blockedMaterials.add(material);
+        plugin.dataConfiguration().save();
         sender.sendMessage("§eItem "+material.toString()+" został odblokowany");
     }
 
     @Subcommand("enchantment add")
     @CommandCompletion("@enchantments")
     public void addEnchant(CommandSender sender,  String enchantName, Integer level){
-        Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
+        @Nullable Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
             sender.sendMessage("§cTen enchantment nie istnieje");
+            return;
         }
 
-        ItemsBlocker.instance().dataConfiguration().blockedEnchants.put(enchant,level);
+        plugin.dataConfiguration().blockedEnchants.put(enchant,level);
+        plugin.dataConfiguration().save();
         sender.sendMessage("§eEnchantment "+enchant.getKey()+" został zablokowany od poziomu "+level);
     }
 
@@ -61,13 +69,16 @@ public class BlockCommand extends BaseCommand {
         Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
             sender.sendMessage("§cTen enchantment nie istnieje");
+            return;
         }
 
-        if (ItemsBlocker.instance().dataConfiguration().blockedEnchants.containsKey(enchant)){
+        if (plugin.dataConfiguration().blockedEnchants.containsKey(enchant)){
             sender.sendMessage("§cTen enchant nie jest zablokowany");
+            return;
         }
 
-        ItemsBlocker.instance().dataConfiguration().blockedEnchants.remove(enchant);
+        plugin.dataConfiguration().blockedEnchants.remove(enchant);
+        plugin.dataConfiguration().save();
         sender.sendMessage("§eEnchantment "+enchant.getKey()+" został odblokowany");
     }
 
@@ -77,9 +88,11 @@ public class BlockCommand extends BaseCommand {
         PotionEffectType potion = PotionEffectType.getByKey(NamespacedKey.minecraft(potionName));
         if (potion == null) {
             sender.sendMessage("§cTen efekt nie istnieje");
+            return;
         }
 
-        ItemsBlocker.instance().dataConfiguration().blockedPotions.put(potion,level-1);
+        plugin.dataConfiguration().blockedPotions.put(potion,level-1);
+        plugin.dataConfiguration().save();
         sender.sendMessage("§eEfekt "+potion.getKey()+" został zablokowany od poziomu "+level);
     }
 
@@ -89,19 +102,22 @@ public class BlockCommand extends BaseCommand {
         PotionEffectType potion = PotionEffectType.getByKey(NamespacedKey.minecraft(potionName));
         if (potion == null) {
             sender.sendMessage("§cTen efekt nie istnieje");
+            return;
         }
 
-        if (ItemsBlocker.instance().dataConfiguration().blockedPotions.containsKey(potion)){
+        if (plugin.dataConfiguration().blockedPotions.containsKey(potion)){
             sender.sendMessage("§cTen efekt nie jest zablokowany");
+            return;
         }
 
-        ItemsBlocker.instance().dataConfiguration().blockedPotions.remove(potion);
+        plugin.dataConfiguration().blockedPotions.remove(potion);
+        plugin.dataConfiguration().save();
         sender.sendMessage("§eEfekt "+potion.getKey()+" został odblokowany");
     }
 
     @Subcommand("netherite")
     public void netherite(CommandSender sender, boolean bool){
-        ItemsBlocker.instance().dataConfiguration().netherite = bool;
+        plugin.dataConfiguration().netherite = bool;
         sender.sendMessage("§eCraftowanie netherytowych itemów zostało ustawione na "+bool);
     }
 }
