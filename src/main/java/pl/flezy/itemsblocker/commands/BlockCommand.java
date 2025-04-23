@@ -46,7 +46,7 @@ public class BlockCommand extends BaseCommand {
     @Subcommand("enchantment add")
     @CommandCompletion("@enchantments")
     public void addEnchant(CommandSender sender,  String enchantName, Integer level){
-        Enchantment enchant = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchantName));
+        Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
             sender.sendMessage("§cTen enchantment nie istnieje");
         }
@@ -58,7 +58,7 @@ public class BlockCommand extends BaseCommand {
     @Subcommand("enchantment remove")
     @CommandCompletion("@enchantments")
     public void removeEnchant(CommandSender sender, String enchantName){
-        Enchantment enchant = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchantName));
+        Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
             sender.sendMessage("§cTen enchantment nie istnieje");
         }
@@ -74,7 +74,7 @@ public class BlockCommand extends BaseCommand {
     @Subcommand("potion add")
     @CommandCompletion("@potionEffects")
     public void addPotion(CommandSender sender, String potionName, Integer level){
-        PotionEffectType potion = Registry.POTION_EFFECT_TYPE.get(NamespacedKey.minecraft(potionName));
+        PotionEffectType potion = PotionEffectType.getByKey(NamespacedKey.minecraft(potionName));
         if (potion == null) {
             sender.sendMessage("§cTen efekt nie istnieje");
         }
@@ -86,7 +86,7 @@ public class BlockCommand extends BaseCommand {
     @Subcommand("potion remove")
     @CommandCompletion("@potionEffects")
     public void removePotion(CommandSender sender, String potionName){
-        PotionEffectType potion = Registry.POTION_EFFECT_TYPE.get(NamespacedKey.minecraft(potionName));
+        PotionEffectType potion = PotionEffectType.getByKey(NamespacedKey.minecraft(potionName));
         if (potion == null) {
             sender.sendMessage("§cTen efekt nie istnieje");
         }
