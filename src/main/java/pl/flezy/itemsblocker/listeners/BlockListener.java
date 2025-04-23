@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 public class BlockListener implements Listener {
+    private final ItemsBlocker plugin = ItemsBlocker.instance();
+
     @EventHandler
     private void onCraft(PrepareItemCraftEvent event){
         ItemStack item = event.getInventory().getResult();
@@ -80,7 +82,7 @@ public class BlockListener implements Listener {
     private boolean checkItem(ItemStack item){
         if (item == null) return false;
         Material itemType = item.getType();
-        if (ItemsBlocker.instance().dataConfiguration().blockedMaterials.contains(itemType))
+        if (plugin.dataConfiguration().blockedMaterials.contains(itemType))
             return true;
 
         ItemMeta itemMeta = item.getItemMeta();
@@ -99,8 +101,8 @@ public class BlockListener implements Listener {
 
     private boolean checkEnchant(Map<Enchantment,Integer> enchants){
         for (Map.Entry<Enchantment,Integer> enchant : enchants.entrySet()){
-            if (ItemsBlocker.instance().dataConfiguration().blockedEnchants.containsKey(enchant.getKey()) &&
-                    ItemsBlocker.instance().dataConfiguration().blockedEnchants.get(enchant.getKey()) <= enchant.getValue())
+            if (plugin.dataConfiguration().blockedEnchants.containsKey(enchant.getKey()) &&
+                    plugin.dataConfiguration().blockedEnchants.get(enchant.getKey()) <= enchant.getValue())
                 return true;
         }
         return false;
@@ -108,8 +110,8 @@ public class BlockListener implements Listener {
 
     private boolean checkPotion(List<PotionEffect> potions){
         for (PotionEffect potion : potions){
-            if (ItemsBlocker.instance().dataConfiguration().blockedPotions.containsKey(potion.getType()) &&
-                    ItemsBlocker.instance().dataConfiguration().blockedPotions.get(potion.getType()) <= potion.getAmplifier())
+            if (plugin.dataConfiguration().blockedPotions.containsKey(potion.getType()) &&
+                    plugin.dataConfiguration().blockedPotions.get(potion.getType()) <= potion.getAmplifier())
                 return true;
         }
         return false;
@@ -119,7 +121,7 @@ public class BlockListener implements Listener {
     private void onSmith(SmithItemEvent event) {
         if (event.getInventory().getResult() != null) {
             Material result = event.getInventory().getResult().getType();
-            if (ItemsBlocker.instance().dataConfiguration().netherite) {
+            if (plugin.dataConfiguration().netherite) {
                 if (result == Material.NETHERITE_AXE ||
                         result == Material.NETHERITE_HOE ||
                         result == Material.NETHERITE_PICKAXE ||
