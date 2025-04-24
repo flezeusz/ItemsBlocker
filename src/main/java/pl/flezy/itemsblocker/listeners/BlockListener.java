@@ -86,6 +86,7 @@ public class BlockListener implements Listener {
             return true;
 
         ItemMeta itemMeta = item.getItemMeta();
+        if (itemMeta == null) return false;
 
         if (itemMeta instanceof EnchantmentStorageMeta est && checkEnchant(est.getStoredEnchants()))
             return true;
