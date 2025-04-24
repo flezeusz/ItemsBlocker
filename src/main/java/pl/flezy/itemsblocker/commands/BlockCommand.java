@@ -91,7 +91,7 @@ public class BlockCommand extends BaseCommand {
             return;
         }
 
-        plugin.dataConfiguration().blockedPotions.put(potion,level-1);
+        plugin.dataConfiguration().blockedPotions.put(potion,level);
         plugin.dataConfiguration().save();
         sender.sendMessage("§eEfekt "+potion.getKey()+" został zablokowany od poziomu "+level);
     }

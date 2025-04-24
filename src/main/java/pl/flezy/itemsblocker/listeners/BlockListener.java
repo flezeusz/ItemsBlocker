@@ -95,7 +95,7 @@ public class BlockListener implements Listener {
         if (checkEnchant(itemMeta.getEnchants()))
             return true;
 
-        if (itemMeta instanceof PotionMeta pm && checkPotion(pm.getCustomEffects()))
+        if (itemMeta instanceof PotionMeta pm && checkPotion(pm.getBasePotionType().getPotionEffects()))
             return true;
 
         return false;
@@ -112,11 +112,8 @@ public class BlockListener implements Listener {
 
     private boolean checkPotion(List<PotionEffect> potions){
         for (PotionEffect potion : potions){
-            Bukkit.broadcastMessage("PotionType: "+potion.getType());
-            Bukkit.broadcastMessage("PotionLevel: "+potion.getAmplifier());
-            Bukkit.broadcastMessage("ConfigPotionLevel: "+plugin.dataConfiguration().blockedPotions.get(potion.getType()));
             if (plugin.dataConfiguration().blockedPotions.containsKey(potion.getType()) &&
-                    plugin.dataConfiguration().blockedPotions.get(potion.getType()) <= potion.getAmplifier()) {
+                    plugin.dataConfiguration().blockedPotions.get(potion.getType())-1 <= potion.getAmplifier()) {
                 return true;
             }
         }
