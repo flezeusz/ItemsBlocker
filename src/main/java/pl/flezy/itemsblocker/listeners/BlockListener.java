@@ -1,5 +1,6 @@
 package pl.flezy.itemsblocker.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -111,9 +112,13 @@ public class BlockListener implements Listener {
 
     private boolean checkPotion(List<PotionEffect> potions){
         for (PotionEffect potion : potions){
+            Bukkit.broadcastMessage("PotionType: "+potion.getType());
+            Bukkit.broadcastMessage("PotionLevel: "+potion.getAmplifier());
+            Bukkit.broadcastMessage("ConfigPotionLevel: "+plugin.dataConfiguration().blockedPotions.get(potion.getType()));
             if (plugin.dataConfiguration().blockedPotions.containsKey(potion.getType()) &&
-                    plugin.dataConfiguration().blockedPotions.get(potion.getType()) <= potion.getAmplifier())
+                    plugin.dataConfiguration().blockedPotions.get(potion.getType()) <= potion.getAmplifier()) {
                 return true;
+            }
         }
         return false;
     }
