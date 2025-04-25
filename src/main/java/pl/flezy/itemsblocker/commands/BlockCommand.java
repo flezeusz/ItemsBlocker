@@ -10,8 +10,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffectType;
 import pl.flezy.itemsblocker.ItemsBlocker;
 
-import java.util.Objects;
-
 @CommandAlias("block|itemsblocker")
 @CommandPermission("itemsblocker.command")
 public class BlockCommand extends BaseCommand {
@@ -56,8 +54,7 @@ public class BlockCommand extends BaseCommand {
             return;
         }
         sender.sendMessage("§eZablokowane itemy:");
-        plugin.dataConfiguration().blockedMaterials.stream().filter(Objects::nonNull)
-                .forEach(mat ->
+        plugin.dataConfiguration().blockedMaterials.forEach(mat ->
                 sender.sendMessage("§8-§7 " + mat.name())
         );
     }
@@ -106,11 +103,10 @@ public class BlockCommand extends BaseCommand {
             return;
         }
         sender.sendMessage("§eZablokowane zaklęcia:");
-        plugin.dataConfiguration().blockedEnchants.entrySet().stream()
-                .filter(entry -> entry.getKey() != null && entry.getValue() != null)
-                .forEach(entry -> {
-                    String enchantName = entry.getKey().getKey().getKey();
-                    int level = entry.getValue();
+        plugin.dataConfiguration().blockedEnchants
+                .forEach((key, value) -> {
+                    String enchantName = key.getKey().getKey();
+                    int level = value;
                     sender.sendMessage("§8-§7 " + enchantName + "  " + level);
                 });
     }
@@ -160,11 +156,10 @@ public class BlockCommand extends BaseCommand {
         }
         sender.sendMessage("§eZablokowane potiony:");
 
-        plugin.dataConfiguration().blockedPotions.entrySet().stream()
-                .filter(entry -> entry.getKey() != null && entry.getValue() != null)
-                .forEach(entry -> {
-            String potionName = entry.getKey().getKey().getKey();
-            int level = entry.getValue();
+        plugin.dataConfiguration().blockedPotions
+                .forEach((key, value) -> {
+            String potionName = key.getKey().getKey();
+            int level = value;
             sender.sendMessage("§8-§7 " + potionName + "  " + level);
         });
     }
