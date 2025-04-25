@@ -7,7 +7,7 @@
 * **Blokowanie Przedmiotów:** Dodawanie/usuwanie przedmiotów z listy zablokowanych.
 * **Blokowanie Zaklęć:** Blokowanie zaklęć z opcjonalnym określeniem minimalnego poziomu.
 * **Blokowanie Efektów Mikstur:** Blokowanie efektów mikstur z opcjonalnym określeniem minimalnego poziomu.
-* **Blokowanie Craftingu Netherytu:** Włączanie/wyłączanie możliwości craftowania przedmiotów z netherytu.
+* **Blokowanie Craftingu Netherytu:** Włączanie/wyłączanie możliwości craftowania netherythowych przedmiotów.
 
 ## Komendy
 
