@@ -71,6 +71,7 @@ public final class ItemsBlocker extends JavaPlugin {
         manager.getCommandCompletions().registerCompletion("potionEffectsRemove", c ->
                 dataConfiguration.blockedPotions
                         .keySet().stream()
+                        .filter(Objects::nonNull)
                         .map(PotionEffectType::getKey)
                         .map(NamespacedKey::getKey)
                         .collect(Collectors.toSet()));
@@ -78,6 +79,7 @@ public final class ItemsBlocker extends JavaPlugin {
         manager.getCommandCompletions().registerCompletion("itemsRemove", c ->
                 dataConfiguration.blockedMaterials
                         .stream()
+                        .filter(Objects::nonNull)
                         .map(Material::name)
                         .collect(Collectors.toSet()));
 

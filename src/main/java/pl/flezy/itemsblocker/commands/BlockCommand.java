@@ -10,6 +10,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffectType;
 import pl.flezy.itemsblocker.ItemsBlocker;
 
+import java.util.Objects;
+
 @CommandAlias("block|itemsblocker")
 @CommandPermission("itemsblocker.command")
 public class BlockCommand extends BaseCommand {
@@ -54,7 +56,8 @@ public class BlockCommand extends BaseCommand {
             return;
         }
         sender.sendMessage("§eZablokowane itemy:");
-        plugin.dataConfiguration().blockedMaterials.forEach(mat ->
+        plugin.dataConfiguration().blockedMaterials.stream().filter(Objects::nonNull)
+                .forEach(mat ->
                 sender.sendMessage("§8-§7 " + mat.name())
         );
     }
@@ -157,9 +160,11 @@ public class BlockCommand extends BaseCommand {
         }
         sender.sendMessage("§eZablokowane potiony:");
 
-        plugin.dataConfiguration().blockedPotions.forEach((key, value) -> {
-            String potionName = key.getKey().getKey();
-            int level = value;
+        plugin.dataConfiguration().blockedPotions.entrySet().stream()
+                .filter(entry -> entry.getKey() != null && entry.getValue() != null)
+                .forEach(entry -> {
+            String potionName = entry.getKey().getKey().getKey();
+            int level = entry.getValue();
             sender.sendMessage("§8-§7 " + potionName + "  " + level);
         });
     }
