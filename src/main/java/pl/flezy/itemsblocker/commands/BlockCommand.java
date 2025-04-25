@@ -11,7 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 import pl.flezy.itemsblocker.ItemsBlocker;
 
 @CommandAlias("block|itemsblocker")
-@CommandPermission("op")
+@CommandPermission("itemsblocker.command")
 public class BlockCommand extends BaseCommand {
 
     private final ItemsBlocker plugin = ItemsBlocker.instance();
@@ -22,6 +22,7 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("item add")
+    @Description("Dodaje przedmiot do listy zablokowanych przedmiotów")
     public void addItem(CommandSender sender, Material material){
         if (plugin.dataConfiguration().blockedMaterials.contains(material)){
             sender.sendMessage("§cTen item jest już zablokowany");
@@ -33,6 +34,7 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("item remove")
+    @Description("Usuwa przedmiot z listy zablokowanych przedmiotów")
     @CommandCompletion("@itemsRemove")
     public void removeItem(CommandSender sender, Material material){
         if (!plugin.dataConfiguration().blockedMaterials.contains(material)){
@@ -45,9 +47,10 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("item list")
+    @Description("Wyświetla listę wszystkich zablokowanych przedmiotów")
     public void listItems(CommandSender sender) {
         if (plugin.dataConfiguration().blockedMaterials.isEmpty()) {
-            sender.sendMessage("§7Brak zablokowanych itemów.");
+            sender.sendMessage("§7Brak zablokowanych itemów");
             return;
         }
         sender.sendMessage("§eZablokowane itemy:");
@@ -57,46 +60,49 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("enchantment add")
+    @Description("Dodaje zaklęcie do listy zablokowanych, opcjonalnie z poziomem")
     @CommandCompletion("@enchantments [poziom]")
     public void addEnchant(CommandSender sender,  String enchantName, @Optional Integer level){
         Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
-            sender.sendMessage("§cTen enchantment nie istnieje");
+            sender.sendMessage("§cTo zaklęcie nie istnieje");
             return;
         }
 
         if (level==null) level=1;
         plugin.dataConfiguration().blockedEnchants.put(enchant,level);
         plugin.dataConfiguration().save();
-        sender.sendMessage("§eEnchantment "+enchant.getKey()+" został zablokowany od poziomu "+level);
+        sender.sendMessage("§eZaklęcie "+enchant.getKey()+" zostało zablokowane od poziomu "+level);
     }
 
     @Subcommand("enchantment remove")
+    @Description("Usuwa zaklęcia z listy zablokowanych")
     @CommandCompletion("@enchantmentsRemove")
     public void removeEnchant(CommandSender sender, String enchantName){
         Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
-            sender.sendMessage("§cTen enchantment nie istnieje");
+            sender.sendMessage("§cTo zaklęcie nie istnieje");
             return;
         }
 
         if (!plugin.dataConfiguration().blockedEnchants.containsKey(enchant)){
-            sender.sendMessage("§cTen enchant nie jest zablokowany");
+            sender.sendMessage("§cTo zaklęcie nie jest zablokowany");
             return;
         }
 
         plugin.dataConfiguration().blockedEnchants.remove(enchant);
         plugin.dataConfiguration().save();
-        sender.sendMessage("§eEnchantment "+enchant.getKey()+" został odblokowany");
+        sender.sendMessage("§eZaklęcie "+enchant.getKey()+" zostało odblokowane");
     }
 
     @Subcommand("enchantment list")
+    @Description("Pokazuje wszystkie zablokowane zaklęcia z poziomami")
     public void onListEnchants(CommandSender sender) {
         if (plugin.dataConfiguration().blockedEnchants.isEmpty()) {
-            sender.sendMessage("§7Brak zablokowanych enchantów.");
+            sender.sendMessage("§7Brak zablokowanych zaklęć");
             return;
         }
-        sender.sendMessage("§eZablokowane enchanty:");
+        sender.sendMessage("§eZablokowane zaklęcia:");
         plugin.dataConfiguration().blockedEnchants.entrySet().stream()
                 .filter(entry -> entry.getKey() != null && entry.getValue() != null)
                 .forEach(entry -> {
@@ -107,6 +113,7 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("potion add")
+    @Description("Dodaje efekt mikstury do listy zablokowanych efektów")
     @CommandCompletion("@potionEffects [poziom]")
     public void addPotion(CommandSender sender, String potionName, @Optional Integer level){
         PotionEffectType potion = PotionEffectType.getByKey(NamespacedKey.minecraft(potionName));
@@ -122,6 +129,7 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("potion remove")
+    @Description("Usuwa efekt mikstury z listy zablokowanych efektów")
     @CommandCompletion("@potionEffectsRemove")
     public void removePotion(CommandSender sender, String potionName){
         PotionEffectType potion = PotionEffectType.getByKey(NamespacedKey.minecraft(potionName));
@@ -141,9 +149,10 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("potion list")
+    @Description("Pokazuje wszystkie zablokowane efekty mikstur")
     public void listPotions(CommandSender sender) {
         if (plugin.dataConfiguration().blockedPotions.isEmpty()) {
-            sender.sendMessage("§7Brak zablokowanych efektów potionów.");
+            sender.sendMessage("§7Brak zablokowanych efektów potionów");
             return;
         }
         sender.sendMessage("§eZablokowane potiony:");
@@ -156,6 +165,7 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("netherite")
+    @Description("Blokuje craftowanie netherythowych przedmiotów")
     @CommandCompletion("true|false")
     public void netherite(CommandSender sender, boolean bool){
         plugin.dataConfiguration().netherite = bool;

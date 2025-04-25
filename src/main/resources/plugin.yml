@@ -3,3 +3,10 @@ version: '${version}'
 main: pl.flezy.itemsblocker.ItemsBlocker
 api-version: '1.20'
 authors: [Flezy]
+permissions:
+  itemsblocker.command:
+    description: Uprawnienie do używania komend
+    default: op
+  itemsblocker.bypass:
+    description: Uprawnienie do omijania blokad
+    default: op
