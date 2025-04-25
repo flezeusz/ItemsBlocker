@@ -1,6 +1,6 @@
 # ItemsBlocker
 
-**ItemsBlocker** to plugin do serwerów Minecraft (Paper 1.20.4), który umożliwia administratorom blokowanie określonych przedmiotów, zaklęć i efektów mikstur. Plugin oferuje zestaw komend do zarządzania blokadami.
+**ItemsBlocker** to plugin do serwerów Minecraft (Paper 1.20.2+), który umożliwia administratorom blokowanie określonych przedmiotów, zaklęć i efektów mikstur. Plugin oferuje zestaw komend do zarządzania blokadami.
 
 ## Funkcje
 
@@ -48,8 +48,13 @@
 * `itemsblocker.command`:  Uprawnienie wymagane do używania wszystkich komend pluginu.
 * `itemsblocker.bypass`:  Uprawnienie do omijania wszystkich blokad itemów.
 
+## Biblioteki
+
+* [Annotation Command Framework (ACF)](https://github.com/aikar/commands)
+* [Okaeri Configs](https://github.com/OkaeriPoland/okaeri-configs)
+
 ## Instalacja
 
 1.  Pobierz plik `.jar` pluginu ItemsBlocker.
-2.  Umieść plik `.jar` w folderze `plugins` Twojego serwera Minecraft (Paper 1.20.4).
+2.  Umieść plik `.jar` w folderze `plugins` Twojego serwera Minecraft (Paper 1.20.2+).
 3.  Zrestartuj serwer.
