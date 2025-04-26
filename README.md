@@ -64,6 +64,6 @@
 
 ## Installation
 
-1.  Download the the latest `.jar` file from [releases](https://github.com/flezeusz/ItemsBlocker/releases).
+1.  Download the the latest `.jar` file from [releases](https://github.com/flezeusz/ItemsBlocker/releases/latest).
 2.  Place the `.jar` file in the `plugins` folder of your Minecraft server (Paper 1.20.2+).
 3.  Restart the server.
