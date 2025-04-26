@@ -27,7 +27,6 @@ public final class ItemsBlocker extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-
         this.dataConfiguration = ConfigurationFactory.createDataConfiguration(this.dataConfigurationFile);
 
         registerCommands();

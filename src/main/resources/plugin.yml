@@ -5,8 +5,8 @@ api-version: '1.20'
 authors: [Flezy]
 permissions:
   itemsblocker.command:
-    description: Uprawnienie do używania komend
+    description: Permission to use plugin commands
     default: op
   itemsblocker.bypass:
-    description: Uprawnienie do omijania blokad
+    description: Permission to bypass items blocks
     default: op
