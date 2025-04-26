@@ -23,6 +23,7 @@ public class BlockCommand extends BaseCommand {
 
     @Subcommand("item add")
     @Description("Adds an item to the list of blocked items")
+
     public void addItem(CommandSender sender, Material material) {
         if (plugin.dataConfiguration().blockedMaterials.contains(material)) {
             sender.sendMessage("§cThis item is already blocked");
@@ -41,9 +42,9 @@ public class BlockCommand extends BaseCommand {
             sender.sendMessage("§cThis item is not blocked");
             return;
         }
-        plugin.dataConfiguration().blockedMaterials.add(material);
+        plugin.dataConfiguration().blockedMaterials.remove(material);
         plugin.dataConfiguration().save();
-        sender.sendMessage("§eItem " + material.toString() + " has been unblocked");
+        sender.sendMessage("§eItem " + material.toString() + " is no longer blocked");
     }
 
     @Subcommand("item list")
@@ -165,10 +166,10 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("netherite")
-    @Description("Blocks crafting of netherite items")
+    @Description("Blocks smithing netherite items")
     @CommandCompletion("true|false")
     public void netherite(CommandSender sender, boolean bool) {
         plugin.dataConfiguration().netherite = bool;
-        sender.sendMessage("§eCrafting of netherite items has been set to " + bool);
+        sender.sendMessage("§eSmithing netherite items has been set to " + bool);
     }
 }

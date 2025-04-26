@@ -73,7 +73,6 @@ public final class ItemsBlocker extends JavaPlugin {
                         .map(Material::name)
                         .collect(Collectors.toSet()));
 
-
         manager.registerCommand(new BlockCommand());
     }
 
