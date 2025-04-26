@@ -1,6 +1,7 @@
 # ItemsBlocker
 
-![Plugin Version](https://img.shields.io/github/v/tag/flezeusz/ItemsBlocker?label=Version&color=green)
+![Plugin Version](https://img.shields.io/github/v/tag/flezeusz/ItemsBlocker?label=Version&color=brightgreen)
+![Downloads](https://img.shields.io/github/downloads/flezeusz/ItemsBlocker/total?label=Downloads&color=blueviolet)
 ![Minecraft Version](https://img.shields.io/badge/Minecraft-1.20.2-orange.svg)
 ![Paper Version](https://img.shields.io/badge/Paper-1.20.2-blue.svg)
 
