@@ -59,8 +59,8 @@
 
 ## Libraries
 
-* [Paper](https://papermc.io/): Minecraft server API.
-* [ACF (Aikar's Command Framework)](https://github.com/aikar/commands): Command framework.
+* [Annotation Command Framework (ACF)](https://github.com/aikar/commands)
+ * [Okaeri Configs](https://github.com/OkaeriPoland/okaeri-configs)
 
 ## Installation
 
