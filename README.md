@@ -1,60 +1,69 @@
 # ItemsBlocker
 
-**ItemsBlocker** to plugin do serwerów Minecraft (Paper 1.20.2+), który umożliwia administratorom blokowanie określonych przedmiotów, zaklęć i efektów mikstur. Plugin oferuje zestaw komend do zarządzania blokadami.
+![Plugin Version](https://img.shields.io/github/v/tag/flezeusz/ItemsBlocker?label=Version&color=green)
+![Minecraft Version](https://img.shields.io/badge/Minecraft-1.20.2-orange.svg)
+![Paper Version](https://img.shields.io/badge/Paper-1.20.2-blue.svg)
 
-## Funkcje
+<a href="/#"><img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/compact/supported/paper_46h.png" height="35"></a>
+<a href="/#"><img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/compact/supported/purpur_46h.png" height="35"></a>
 
-* **Blokowanie Przedmiotów:** Dodawanie/usuwanie przedmiotów z listy zablokowanych.
-* **Blokowanie Zaklęć:** Blokowanie zaklęć z opcjonalnym określeniem minimalnego poziomu.
-* **Blokowanie Efektów Mikstur:** Blokowanie efektów mikstur z opcjonalnym określeniem minimalnego poziomu.
-* **Blokowanie Craftingu Netherytu:** Włączanie/wyłączanie możliwości craftowania netherythowych przedmiotów.
+## Description
 
-## Komendy
+**ItemsBlocker** is a Minecraft plugin that allows administrators to block specific items, enchantments, and potion effects. The plugin provides a set of commands to manage these restrictions.
 
-* `/block` lub `/itemsblocker` -  Główny alias komendy. Wymagane uprawnienie: `itemsblocker.command`
+## Features
 
-### Podkomendy
+* **Item Blocking:** Add/remove items from the blocked list.
+* **Enchantment Blocking:** Block enchantments, optionally specifying a minimum level.
+* **Potion Effect Blocking:** Block potion effects, optionally specifying a minimum level.
+* **Netherite Crafting Blocking:** Enable/disable the crafting of netherite items.
 
-* `/block help`: Wyświetla listę dostępnych komend.
+## Commands
 
-#### Zarządzanie Przedmiotami
+* `/block` or `/itemsblocker` - Main command alias.  Requires the `itemsblocker.command` permission.
 
-* `/block item add <przedmiot>`: Dodaje przedmiot do zablokowanych (np. `/block item add DIAMOND_SWORD`).
-* `/block item remove <przedmiot>`: Usuwa przedmiot z zablokowanych.
-* `/block item list`: Wyświetla listę zablokowanych przedmiotów.
+### Subcommands
 
-#### Zarządzanie Zaklęciami
+* `/block help`: Displays the list of available commands.
 
-* `/block enchantment add <nazwa_zaklęcia> [poziom]`: Dodaje zaklęcie do zablokowanych (np., `/block enchantment add riptide 1`).
-    * `<nazwa_zaklęcia>`: Nazwa zaklęcia (użyj nazw z Minecraft, np. `sharpness`, `efficiency`).
-    * `[poziom]` (Opcjonalne): Minimalny poziom zaklęcia do zablokowania. Domyślnie: 1.
-* `/block enchantment remove <nazwa_zaklęcia>`: Usuwa zaklęcie z zablokowanych.
-* `/block enchantment list`: Wyświetla listę zablokowanych zaklęć i poziomów.
+#### Item Management
 
-#### Zarządzanie Efektami Mikstur
+* `/block item add <item>`: Adds an item to the blocked list (e.g., `/block item add DIAMOND_SWORD`).
+* `/block item remove <item>`: Removes an item from the blocked list.
+* `/block item list`: Displays the list of blocked items.
 
-* `/block potion add <nazwa_efektu> [poziom]`: Dodaje efekt mikstury do zablokowanych (np., `/block potion add strenght 2`).
-    * `<nazwa_efektu>`: Nazwa efektu mikstury (użyj nazw z Minecraft, np. `speed`, `strength`).
-    * `[poziom]` (Opcjonalne): Minimalny poziom efektu do zablokowania. Domyślnie: 1.
-* `/block potion remove <nazwa_efektu>`: Usuwa efekt mikstury z zablokowanych.
-* `/block potion list`: Wyświetla listę zablokowanych efektów mikstur i poziomów.
+#### Enchantment Management
 
-#### Zarządzanie Craftingiem Netherytu
+* `/block enchantment add <enchantment_name> [level]`: Adds an enchantment to the blocked list (e.g., `/block enchantment add sharpness 2`).
+    * `<enchantment_name>`: The name of the enchantment (use Minecraft names, e.g., `sharpness`, `efficiency`).
+    * `[level]` (Optional): The minimum enchantment level to block. Default: 1.
+* `/block enchantment remove <enchantment_name>`: Removes an enchantment from the blocked list.
+* `/block enchantment list`: Displays the list of blocked enchantments and their levels.
 
-* `/block netherite <true|false>`: Włącza/wyłącza blokowanie craftingu przedmiotów z netherytu.
+#### Potion Effect Management
 
-## Uprawnienia
+* `/block potion add <potion_effect_name> [level]`: Adds a potion effect to the blocked list (e.g., `/block potion add strength 2`).
+    * `<potion_effect_name>`: The name of the potion effect (use Minecraft names, e.g., `speed`, `strength`).
+    * `[level]` (Optional): The minimum potion effect level to block. Default: 1.
+* `/block potion remove <potion_effect_name>`: Removes a potion effect from the blocked list.
+* `/block potion list`: Displays the list of blocked potion effects and their levels.
 
-* `itemsblocker.command`:  Uprawnienie wymagane do używania wszystkich komend pluginu.
-* `itemsblocker.bypass`:  Uprawnienie do omijania wszystkich blokad itemów.
+#### Netherite Crafting Management
 
-## Biblioteki
+* `/block netherite <true|false>`: Enables/disables blocking the crafting of netherite items.
+
+## Permissions
+
+* `itemsblocker.command`: Permission to use plugin commands.
+* `itemsblocker.bypass`: Permission to bypass all item blocks.
+
+## Libraries
 
 * [Annotation Command Framework (ACF)](https://github.com/aikar/commands)
-* [Okaeri Configs](https://github.com/OkaeriPoland/okaeri-configs)
+ * [Okaeri Configs](https://github.com/OkaeriPoland/okaeri-configs)
 
-## Instalacja
+## Installation
 
-1.  Pobierz plik `.jar` pluginu ItemsBlocker.
-2.  Umieść plik `.jar` w folderze `plugins` Twojego serwera Minecraft (Paper 1.20.2+).
-3.  Zrestartuj serwer.
+1.  Download the the latest `.jar` file from [releases](https://github.com/flezeusz/ItemsBlocker/releases).
+2.  Place the `.jar` file in the `plugins` folder of your Minecraft server (Paper 1.20.2+).
+3.  Restart the server.
