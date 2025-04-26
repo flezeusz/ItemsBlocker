@@ -166,10 +166,10 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("netherite")
-    @Description("Blocks smithing netherite items")
+    @Description("Blocks smithing of netherite items")
     @CommandCompletion("true|false")
     public void netherite(CommandSender sender, boolean bool) {
         plugin.dataConfiguration().netherite = bool;
-        sender.sendMessage("§eSmithing netherite items has been set to " + bool);
+        sender.sendMessage("§eBlocking of netherite item smithing has been set to " + bool);
     }
 }
