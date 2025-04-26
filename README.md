@@ -16,7 +16,7 @@
 * **Item Blocking:** Add/remove items from the blocked list.
 * **Enchantment Blocking:** Block enchantments, optionally specifying a minimum level.
 * **Potion Effect Blocking:** Block potion effects, optionally specifying a minimum level.
-* **Netherite Crafting Blocking:** Enable/disable the crafting of netherite items.
+* **Netherite Crafting Blocking:** Enable/disable smithing of netherite items.
 
 ## Commands
 
@@ -50,7 +50,7 @@
 
 #### Netherite Crafting Management
 
-* `/block netherite <true|false>`: Enables/disables blocking the crafting of netherite items.
+* `/block netherite <true|false>`: Enables/disables blocking of netherite item smithing.
 
 ## Permissions
 
