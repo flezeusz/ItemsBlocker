@@ -10,6 +10,7 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.VillagerAcquireTradeEvent;
 import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -23,6 +24,13 @@ import java.util.Map;
 
 public class BlockListener implements Listener {
     private final ItemsBlocker plugin = ItemsBlocker.instance();
+
+    @EventHandler
+    private void onInteract(PlayerInteractEvent event){
+        ItemStack item = event.getItem();
+        if (checkItem(item))
+            item.setAmount(0);
+    }
 
     @EventHandler
     private void onCraft(PrepareItemCraftEvent event){
