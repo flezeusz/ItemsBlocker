@@ -15,7 +15,6 @@ import pl.flezy.itemsblocker.listeners.BlockListener;
 
 import java.io.File;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class ItemsBlocker extends JavaPlugin {
@@ -35,11 +34,6 @@ public final class ItemsBlocker extends JavaPlugin {
         registerListeners(List.of(
                 new BlockListener()
         ));
-    }
-
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
     }
 
     private void registerCommands() {

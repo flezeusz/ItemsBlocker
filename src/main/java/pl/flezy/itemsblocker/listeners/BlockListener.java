@@ -123,18 +123,11 @@ public class BlockListener implements Listener {
     private void onSmith(SmithItemEvent event) {
         if (event.getInventory().getResult() != null) {
             Material result = event.getInventory().getResult().getType();
-            if (plugin.dataConfiguration().netherite) {
-                if (result == Material.NETHERITE_AXE ||
-                        result == Material.NETHERITE_HOE ||
-                        result == Material.NETHERITE_PICKAXE ||
-                        result == Material.NETHERITE_SHOVEL ||
-                        result == Material.NETHERITE_HELMET ||
-                        result == Material.NETHERITE_CHESTPLATE ||
-                        result == Material.NETHERITE_LEGGINGS ||
-                        result == Material.NETHERITE_BOOTS ||
-                        result == Material.NETHERITE_SWORD) {
-                    event.setResult(Event.Result.DENY);
-                }
+            if (plugin.dataConfiguration().netherite &&
+            List.of(Material.NETHERITE_AXE,Material.NETHERITE_HOE,Material.NETHERITE_PICKAXE, Material.NETHERITE_SHOVEL,
+                    Material.NETHERITE_HELMET, Material.NETHERITE_CHESTPLATE, Material.NETHERITE_LEGGINGS,
+                    Material.NETHERITE_BOOTS, Material.NETHERITE_SWORD).contains(result)) {
+                event.setResult(Event.Result.DENY);
             }
         }
     }

@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'pl.flezy'
-version = '1.0-SNAPSHOT'
+version = '1.0.1'
 
 repositories {
     mavenCentral()
@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
+    compileOnly "io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT"
 
     implementation 'eu.okaeri:okaeri-configs-yaml-bukkit:5.0.5'
     implementation 'eu.okaeri:okaeri-configs-serdes-bukkit:5.0.5'
