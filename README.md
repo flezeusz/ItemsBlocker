@@ -21,37 +21,37 @@
 
 ## Commands
 
-* `/block` or `/itemsblocker` - Main command alias.  Requires the `itemsblocker.command` permission.
+* `/blocker` or `/itemsblocker` - Main command alias.  Requires the `itemsblocker.command` permission.
 
 ### Subcommands
 
-* `/block help`: Displays the list of available commands.
+* `/blocker help`: Displays the list of available commands.
 
 #### Item Management
 
-* `/block item add <item>`: Adds an item to the blocked list (e.g., `/block item add DIAMOND_SWORD`).
-* `/block item remove <item>`: Removes an item from the blocked list.
-* `/block item list`: Displays the list of blocked items.
+* `/blocker item add <item>`: Adds an item to the blocked list (e.g., `/blocker item add DIAMOND_SWORD`).
+* `/blocker item remove <item>`: Removes an item from the blocked list.
+* `/blocker item list`: Displays the list of blocked items.
 
 #### Enchantment Management
 
-* `/block enchantment add <enchantment_name> [level]`: Adds an enchantment to the blocked list (e.g., `/block enchantment add sharpness 2`).
+* `/blocker enchantment add <enchantment_name> [level]`: Adds an enchantment to the blocked list (e.g., `/blocker enchantment add sharpness 2`).
     * `<enchantment_name>`: The name of the enchantment (use Minecraft names, e.g., `sharpness`, `efficiency`).
     * `[level]` (Optional): The minimum enchantment level to block. Default: 1.
-* `/block enchantment remove <enchantment_name>`: Removes an enchantment from the blocked list.
-* `/block enchantment list`: Displays the list of blocked enchantments and their levels.
+* `/blocker enchantment remove <enchantment_name>`: Removes an enchantment from the blocked list.
+* `/blocker enchantment list`: Displays the list of blocked enchantments and their levels.
 
 #### Potion Effect Management
 
-* `/block potion add <potion_effect_name> [level]`: Adds a potion effect to the blocked list (e.g., `/block potion add strength 2`).
+* `/blocker potion add <potion_effect_name> [level]`: Adds a potion effect to the blocked list (e.g., `/blocker potion add strength 2`).
     * `<potion_effect_name>`: The name of the potion effect (use Minecraft names, e.g., `speed`, `strength`).
     * `[level]` (Optional): The minimum potion effect level to block. Default: 1.
-* `/block potion remove <potion_effect_name>`: Removes a potion effect from the blocked list.
-* `/block potion list`: Displays the list of blocked potion effects and their levels.
+* `/blocker potion remove <potion_effect_name>`: Removes a potion effect from the blocked list.
+* `/blocker potion list`: Displays the list of blocked potion effects and their levels.
 
 #### Netherite Crafting Management
 
-* `/block netherite <true|false>`: Enables/disables blocking of netherite item smithing.
+* `/blocker netherite <true|false>`: Enables/disables blocking of netherite item smithing.
 
 ## Permissions
 
