@@ -26,21 +26,21 @@ public class BlockListener implements Listener {
     private final ItemsBlocker plugin = ItemsBlocker.instance();
 
     @EventHandler
-    private void onInteract(PlayerInteractEvent event){
+    public void onInteract(PlayerInteractEvent event){
         ItemStack item = event.getItem();
         if (checkItem(item))
             item.setAmount(0);
     }
 
     @EventHandler
-    private void onCraft(PrepareItemCraftEvent event){
+    public void onCraft(PrepareItemCraftEvent event){
         ItemStack item = event.getInventory().getResult();
         if (checkItem(item))
             event.getInventory().setResult(null);
     }
 
     @EventHandler
-    private void onBrew(BrewEvent event){
+    public void onBrew(BrewEvent event){
         List<ItemStack> items = event.getResults();
         for(ItemStack item : items)
             if(checkItem(item))
@@ -48,14 +48,14 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler
-    private void onTrade(VillagerAcquireTradeEvent event){
+    public void onTrade(VillagerAcquireTradeEvent event){
         ItemStack item = event.getRecipe().getResult();
         if (checkItem(item))
             event.setCancelled(true);
     }
 
     @EventHandler
-    private void onInventoryClick(InventoryClickEvent event){
+    public void onInventoryClick(InventoryClickEvent event){
         if (event.getWhoClicked() instanceof Player player && player.hasPermission("itemsblocker.bypass")) return;
 
         ItemStack item = event.getCurrentItem();
@@ -64,7 +64,7 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler
-    private void onSwapItems(PlayerSwapHandItemsEvent event){
+    public void onSwapItems(PlayerSwapHandItemsEvent event){
         if (event.getPlayer().hasPermission("itemsblocker.bypass")) return;
 
         ItemStack item = event.getOffHandItem();
@@ -73,7 +73,7 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler
-    private void onEntityPickUp(EntityPickupItemEvent event){
+    public void onEntityPickUp(EntityPickupItemEvent event){
         if (event.getEntity() instanceof Player player && player.hasPermission("itemsblocker.bypass")) return;
 
         ItemStack item = event.getItem().getItemStack();
@@ -82,7 +82,7 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler
-    private void onEnchant(EnchantItemEvent event){
+    public void onEnchant(EnchantItemEvent event){
         if (checkEnchant(event.getEnchantsToAdd()))
             event.setCancelled(true);
     }
@@ -118,6 +118,7 @@ public class BlockListener implements Listener {
     }
 
     private boolean checkPotion(List<PotionEffect> potions){
+        if (potions == null || potions.isEmpty()) return false;
         for (PotionEffect potion : potions){
             if (plugin.dataConfiguration().blockedPotions.containsKey(potion.getType()) &&
                     plugin.dataConfiguration().blockedPotions.get(potion.getType())-1 <= potion.getAmplifier()) {
@@ -128,7 +129,7 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler
-    private void onSmith(SmithItemEvent event) {
+    public void onSmith(SmithItemEvent event) {
         if (event.getInventory().getResult() != null) {
             Material result = event.getInventory().getResult().getType();
             if (plugin.dataConfiguration().netherite &&
