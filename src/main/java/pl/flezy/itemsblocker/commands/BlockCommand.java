@@ -170,6 +170,7 @@ public class BlockCommand extends BaseCommand {
     @CommandCompletion("true|false")
     public void netherite(CommandSender sender, boolean bool) {
         plugin.dataConfiguration().netherite = bool;
+        plugin.dataConfiguration().save();
         sender.sendMessage("§eBlocking of netherite item smithing has been set to " + bool);
     }
 }
