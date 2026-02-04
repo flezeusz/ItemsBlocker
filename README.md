@@ -1,7 +1,7 @@
 # ItemsBlocker
 
 ![Plugin Version](https://img.shields.io/github/v/tag/flezeusz/ItemsBlocker?label=Version&color=brightgreen)
-![Downloads](https://img.shields.io/github/downloads/flezeusz/ItemsBlocker/total?label=Downloads&color=blueviolet)
+![Downloads](https://img.shields.io/modrinth/dt/itemsblocker?label=Downloads&color=blueviolet)
 ![Paper Version](https://img.shields.io/badge/Paper-1.20.2+-blue.svg)
 
 <a href="/#"><img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/compact/supported/paper_46h.png" height="35"></a>
