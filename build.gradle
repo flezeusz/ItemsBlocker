@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT"
+    compileOnly 'io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT'
 
     implementation 'eu.okaeri:okaeri-configs-yaml-bukkit:5.0.5'
     implementation 'eu.okaeri:okaeri-configs-serdes-bukkit:5.0.5'
@@ -33,13 +33,13 @@ dependencies {
     implementation 'eu.okaeri:okaeri-configs-validator-okaeri:5.0.5'
     implementation 'eu.okaeri:okaeri-placeholders-bukkit:5.1.1'
 
-    implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
+    implementation 'co.aikar:acf-paper:0.5.1-SNAPSHOT'
 }
 
 shadowJar {
     relocate("eu.okaeri", "pl.flezy.itemsblocker.libs.eu.okaeri")
-    relocate("co.aikar.commands", "pl.flezy.itemsblocker.libs.acf")
-    relocate("co.aikar.locales", "pl.flezy.itemsblocker.libs.locales")
+    relocate("co.aikar", "pl.flezy.itemsblocker.libs.co.aikar")
+    archiveClassifier.set('')
 }
 
 assemble.dependsOn(shadowJar)

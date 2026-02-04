@@ -14,7 +14,7 @@ import pl.flezy.itemsblocker.ItemsBlocker;
 @CommandPermission("itemsblocker.command")
 public class BlockCommand extends BaseCommand {
 
-    private final ItemsBlocker plugin = ItemsBlocker.instance();
+    private final ItemsBlocker plugin = ItemsBlocker.getInstance();
 
     @HelpCommand
     public void doHelp(CommandSender sender, CommandHelp help) {
@@ -25,12 +25,12 @@ public class BlockCommand extends BaseCommand {
     @Description("Adds an item to the list of blocked items")
 
     public void addItem(CommandSender sender, Material material) {
-        if (plugin.dataConfiguration().blockedMaterials.contains(material)) {
+        if (plugin.getData().blockedMaterials.contains(material)) {
             sender.sendMessage("§cThis item is already blocked");
             return;
         }
-        plugin.dataConfiguration().blockedMaterials.add(material);
-        plugin.dataConfiguration().save();
+        plugin.getData().blockedMaterials.add(material);
+        plugin.getData().save();
         sender.sendMessage("§eItem " + material.toString() + " has been blocked");
     }
 
@@ -38,24 +38,24 @@ public class BlockCommand extends BaseCommand {
     @Description("Removes an item from the list of blocked items")
     @CommandCompletion("@itemsRemove")
     public void removeItem(CommandSender sender, Material material) {
-        if (!plugin.dataConfiguration().blockedMaterials.contains(material)) {
+        if (!plugin.getData().blockedMaterials.contains(material)) {
             sender.sendMessage("§cThis item is not blocked");
             return;
         }
-        plugin.dataConfiguration().blockedMaterials.remove(material);
-        plugin.dataConfiguration().save();
+        plugin.getData().blockedMaterials.remove(material);
+        plugin.getData().save();
         sender.sendMessage("§eItem " + material.toString() + " is no longer blocked");
     }
 
     @Subcommand("item list")
     @Description("Displays a list of all blocked items")
     public void listItems(CommandSender sender) {
-        if (plugin.dataConfiguration().blockedMaterials.isEmpty()) {
+        if (plugin.getData().blockedMaterials.isEmpty()) {
             sender.sendMessage("§cNo blocked items");
             return;
         }
         sender.sendMessage("§eBlocked items:");
-        plugin.dataConfiguration().blockedMaterials.forEach(mat ->
+        plugin.getData().blockedMaterials.forEach(mat ->
                 sender.sendMessage("§8-§7 " + mat.name())
         );
     }
@@ -71,8 +71,8 @@ public class BlockCommand extends BaseCommand {
         }
 
         if (level == null) level = 1;
-        plugin.dataConfiguration().blockedEnchants.put(enchant, level);
-        plugin.dataConfiguration().save();
+        plugin.getData().blockedEnchants.put(enchant, level);
+        plugin.getData().save();
         sender.sendMessage("§eEnchantment " + enchant.getKey() + " has been blocked from level " + level);
     }
 
@@ -86,25 +86,25 @@ public class BlockCommand extends BaseCommand {
             return;
         }
 
-        if (!plugin.dataConfiguration().blockedEnchants.containsKey(enchant)) {
+        if (!plugin.getData().blockedEnchants.containsKey(enchant)) {
             sender.sendMessage("§cThis enchantment is not blocked");
             return;
         }
 
-        plugin.dataConfiguration().blockedEnchants.remove(enchant);
-        plugin.dataConfiguration().save();
+        plugin.getData().blockedEnchants.remove(enchant);
+        plugin.getData().save();
         sender.sendMessage("§eEnchantment " + enchant.getKey() + " is no longer blocked");
     }
 
     @Subcommand("enchantment list")
     @Description("Shows all blocked enchantments with levels")
     public void onListEnchants(CommandSender sender) {
-        if (plugin.dataConfiguration().blockedEnchants.isEmpty()) {
+        if (plugin.getData().blockedEnchants.isEmpty()) {
             sender.sendMessage("§cNo blocked enchantments");
             return;
         }
         sender.sendMessage("§eBlocked enchantments:");
-        plugin.dataConfiguration().blockedEnchants
+        plugin.getData().blockedEnchants
                 .forEach((key, value) -> {
                     String enchantName = key.getKey().getKey();
                     int level = value;
@@ -123,8 +123,8 @@ public class BlockCommand extends BaseCommand {
         }
 
         if (level == null) level = 1;
-        plugin.dataConfiguration().blockedPotions.put(potion, level);
-        plugin.dataConfiguration().save();
+        plugin.getData().blockedPotions.put(potion, level);
+        plugin.getData().save();
         sender.sendMessage("§ePotion effect " + potion.getKey() + " has been blocked from level " + level);
     }
 
@@ -138,26 +138,26 @@ public class BlockCommand extends BaseCommand {
             return;
         }
 
-        if (!plugin.dataConfiguration().blockedPotions.containsKey(potion)) {
+        if (!plugin.getData().blockedPotions.containsKey(potion)) {
             sender.sendMessage("§cThis potion effect is not blocked");
             return;
         }
 
-        plugin.dataConfiguration().blockedPotions.remove(potion);
-        plugin.dataConfiguration().save();
+        plugin.getData().blockedPotions.remove(potion);
+        plugin.getData().save();
         sender.sendMessage("§ePotion effect " + potion.getKey() + " is no longer blocked");
     }
 
     @Subcommand("potion list")
     @Description("Shows all blocked potion effects")
     public void listPotions(CommandSender sender) {
-        if (plugin.dataConfiguration().blockedPotions.isEmpty()) {
+        if (plugin.getData().blockedPotions.isEmpty()) {
             sender.sendMessage("§cNo blocked potion effects");
             return;
         }
         sender.sendMessage("§eBlocked potions effects:");
 
-        plugin.dataConfiguration().blockedPotions
+        plugin.getData().blockedPotions
                 .forEach((key, value) -> {
                     String potionName = key.getKey().getKey();
                     int level = value;
@@ -166,11 +166,18 @@ public class BlockCommand extends BaseCommand {
     }
 
     @Subcommand("netherite")
-    @Description("Blocks smithing of netherite items")
-    @CommandCompletion("true|false")
-    public void netherite(CommandSender sender, boolean bool) {
-        plugin.dataConfiguration().netherite = bool;
-        plugin.dataConfiguration().save();
-        sender.sendMessage("§eBlocking of netherite item smithing has been set to " + bool);
+    @Description("Blocks or allows smithing of netherite items")
+    @CommandCompletion("block|allow")
+    public void netherite(CommandSender sender, @Values("block|allow") String action) {
+        if (action.equalsIgnoreCase("block")) {
+            plugin.getData().blockNetherite = true;
+            plugin.getData().save();
+            sender.sendMessage("§eSmithing netherite items is now blocked");
+        }
+        else if (action.equalsIgnoreCase("allow")) {
+            plugin.getData().blockNetherite = true;
+            plugin.getData().save();
+            sender.sendMessage("§eSmithing netherite items is now allowed");
+        }
     }
 }

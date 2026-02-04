@@ -10,13 +10,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class DataConfiguration extends OkaeriConfig {
+public class Data extends OkaeriConfig {
     public Set<Material> blockedMaterials = new HashSet<>();
 
     public Map<Enchantment,Integer> blockedEnchants = new HashMap<>();
 
     public Map<PotionEffectType,Integer> blockedPotions = new HashMap<>();
 
-    public boolean netherite = true;
+    public boolean blockNetherite = false;
 
 }

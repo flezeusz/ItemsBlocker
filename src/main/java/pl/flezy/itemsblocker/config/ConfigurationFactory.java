@@ -11,11 +11,8 @@ import java.io.File;
 
 public class ConfigurationFactory {
 
-    private ConfigurationFactory(){
-    }
-
-    public static DataConfiguration createDataConfiguration(File dataConfigurationFile) {
-        return ConfigManager.create(DataConfiguration.class, (it) -> {
+    public static Data createDataConfiguration(File dataConfigurationFile) {
+        return ConfigManager.create(Data.class, (it) -> {
             it.withConfigurer(new OkaeriValidator(new YamlBukkitConfigurer()));
             it.withSerdesPack(registry -> {
                 registry.register(new SerdesCommons());
@@ -23,7 +20,7 @@ public class ConfigurationFactory {
             });
 
             it.withBindFile(dataConfigurationFile);
-            it.withLogger(ItemsBlocker.instance().getLogger());
+            it.withLogger(ItemsBlocker.getInstance().getLogger());
             it.saveDefaults();
             it.load(true);
         });

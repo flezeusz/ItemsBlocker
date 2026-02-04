@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffectType;
 import pl.flezy.itemsblocker.commands.BlockCommand;
 import pl.flezy.itemsblocker.config.ConfigurationFactory;
-import pl.flezy.itemsblocker.config.DataConfiguration;
+import pl.flezy.itemsblocker.config.Data;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.flezy.itemsblocker.listeners.BlockListener;
 
@@ -20,14 +20,13 @@ import java.util.stream.Collectors;
 public final class ItemsBlocker extends JavaPlugin {
     private final File dataConfigurationFile = new File(this.getDataFolder(), "data.yml");
 
-    private DataConfiguration dataConfiguration;
-
     private static ItemsBlocker instance;
+    private Data data;
 
     @Override
     public void onEnable() {
         instance = this;
-        this.dataConfiguration = ConfigurationFactory.createDataConfiguration(this.dataConfigurationFile);
+        this.data = ConfigurationFactory.createDataConfiguration(this.dataConfigurationFile);
 
         registerCommands();
         registerListeners(List.of(
@@ -54,21 +53,21 @@ public final class ItemsBlocker extends JavaPlugin {
                         .collect(Collectors.toSet()));
 
         manager.getCommandCompletions().registerCompletion("enchantmentsRemove", c ->
-                dataConfiguration.blockedEnchants
+                data.blockedEnchants
                         .keySet().stream()
                         .map(Enchantment::getKey)
                         .map(NamespacedKey::getKey)
                         .collect(Collectors.toSet()));
 
         manager.getCommandCompletions().registerCompletion("potionEffectsRemove", c ->
-                dataConfiguration.blockedPotions
+                data.blockedPotions
                         .keySet().stream()
                         .map(PotionEffectType::getKey)
                         .map(NamespacedKey::getKey)
                         .collect(Collectors.toSet()));
 
         manager.getCommandCompletions().registerCompletion("itemsRemove", c ->
-                dataConfiguration.blockedMaterials
+                data.blockedMaterials
                         .stream()
                         .map(Material::name)
                         .collect(Collectors.toSet()));
@@ -80,15 +79,15 @@ public final class ItemsBlocker extends JavaPlugin {
         listeners.forEach(listener -> getServer().getPluginManager().registerEvents(listener,this));
     }
 
-    public static ItemsBlocker instance() {
+    public static ItemsBlocker getInstance() {
         return instance;
     }
 
-    public DataConfiguration dataConfiguration() {
-        return dataConfiguration;
+    public Data getData() {
+        return data;
     }
 
     public void reloadConfiguration() {
-        this.dataConfiguration.load();
+        this.data.load();
     }
 }

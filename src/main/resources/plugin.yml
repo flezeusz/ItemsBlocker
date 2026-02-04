@@ -2,10 +2,11 @@ name: ItemsBlocker
 version: '${version}'
 main: pl.flezy.itemsblocker.ItemsBlocker
 api-version: '1.20'
-authors: [Flezy]
+website: flezy.pl
+authors: [flezy]
 permissions:
   itemsblocker.command:
-    description: Permission to use plugin commands
+    description: Permission to use plugin command
     default: op
   itemsblocker.bypass:
     description: Permission to bypass items blocks
