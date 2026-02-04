@@ -17,14 +17,14 @@ public class BlockCommand extends BaseCommand {
     private final ItemsBlocker plugin = ItemsBlocker.getInstance();
 
     @HelpCommand
-    public void doHelp(CommandSender sender, CommandHelp help) {
+    public void doHelp(CommandHelp help) {
         help.showHelp();
     }
 
     @Subcommand("item add")
     @Description("Adds an item to the list of blocked items")
 
-    public void addItem(CommandSender sender, Material material) {
+    public void onItemAdd(CommandSender sender, Material material) {
         if (plugin.getData().blockedMaterials.contains(material)) {
             sender.sendMessage("§cThis item is already blocked");
             return;
@@ -37,7 +37,7 @@ public class BlockCommand extends BaseCommand {
     @Subcommand("item remove")
     @Description("Removes an item from the list of blocked items")
     @CommandCompletion("@itemsRemove")
-    public void removeItem(CommandSender sender, Material material) {
+    public void onItemRemove(CommandSender sender, Material material) {
         if (!plugin.getData().blockedMaterials.contains(material)) {
             sender.sendMessage("§cThis item is not blocked");
             return;
@@ -49,7 +49,7 @@ public class BlockCommand extends BaseCommand {
 
     @Subcommand("item list")
     @Description("Displays a list of all blocked items")
-    public void listItems(CommandSender sender) {
+    public void onItemList(CommandSender sender) {
         if (plugin.getData().blockedMaterials.isEmpty()) {
             sender.sendMessage("§cNo blocked items");
             return;
@@ -63,7 +63,7 @@ public class BlockCommand extends BaseCommand {
     @Subcommand("enchantment add")
     @Description("Adds an enchantment to the list of blocked enchantments, optionally with a level")
     @CommandCompletion("@enchantments [level]")
-    public void addEnchant(CommandSender sender, String enchantName, @Optional Integer level) {
+    public void onEnchantmentAdd(CommandSender sender, String enchantName, @Optional Integer level) {
         Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
             sender.sendMessage("§cThis enchantment does not exist");
@@ -79,7 +79,7 @@ public class BlockCommand extends BaseCommand {
     @Subcommand("enchantment remove")
     @Description("Removes enchantments from the list of blocked enchantments")
     @CommandCompletion("@enchantmentsRemove")
-    public void removeEnchant(CommandSender sender, String enchantName) {
+    public void onEnchantmentRemove(CommandSender sender, String enchantName) {
         Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
             sender.sendMessage("§cThis enchantment does not exist");
@@ -98,7 +98,7 @@ public class BlockCommand extends BaseCommand {
 
     @Subcommand("enchantment list")
     @Description("Shows all blocked enchantments with levels")
-    public void onListEnchants(CommandSender sender) {
+    public void onEnchantmentList(CommandSender sender) {
         if (plugin.getData().blockedEnchants.isEmpty()) {
             sender.sendMessage("§cNo blocked enchantments");
             return;
@@ -115,7 +115,7 @@ public class BlockCommand extends BaseCommand {
     @Subcommand("potion add")
     @Description("Adds a potion effect to the list of blocked effects")
     @CommandCompletion("@potionEffects [level]")
-    public void addPotion(CommandSender sender, String potionName, @Optional Integer level) {
+    public void onPotionAdd(CommandSender sender, String potionName, @Optional Integer level) {
         PotionEffectType potion = PotionEffectType.getByKey(NamespacedKey.minecraft(potionName));
         if (potion == null) {
             sender.sendMessage("§cThis potion effect does not exist");
@@ -131,7 +131,7 @@ public class BlockCommand extends BaseCommand {
     @Subcommand("potion remove")
     @Description("Removes a potion effect from the list of blocked effects")
     @CommandCompletion("@potionEffectsRemove")
-    public void removePotion(CommandSender sender, String potionName) {
+    public void onPotionRemove(CommandSender sender, String potionName) {
         PotionEffectType potion = PotionEffectType.getByKey(NamespacedKey.minecraft(potionName));
         if (potion == null) {
             sender.sendMessage("§cThis potion effect does not exist");
@@ -150,7 +150,7 @@ public class BlockCommand extends BaseCommand {
 
     @Subcommand("potion list")
     @Description("Shows all blocked potion effects")
-    public void listPotions(CommandSender sender) {
+    public void onPotionList(CommandSender sender) {
         if (plugin.getData().blockedPotions.isEmpty()) {
             sender.sendMessage("§cNo blocked potion effects");
             return;
