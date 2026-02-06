@@ -87,7 +87,7 @@ public class BlockListener implements Listener {
 
     @EventHandler
     public void onEnchant(EnchantItemEvent event){
-        if (BlockManager.checkEnchants(event.getEnchantsToAdd())) {
+        if (BlockManager.areEnchantmentsBlocked(event.getEnchantsToAdd())) {
             event.setCancelled(true);
         }
     }
