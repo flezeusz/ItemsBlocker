@@ -7,7 +7,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.flezy.itemsblocker.ItemsBlocker;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class BlockManager {
 
-    public static boolean isBlocked(ItemStack item){
+    public static boolean isBlocked(@Nullable ItemStack item){
         if (item == null) return false;
 
         if (isMaterialBlocked(item.getType())) return true;
@@ -32,7 +32,7 @@ public class BlockManager {
             return true;
 
         return itemMeta instanceof PotionMeta potionMeta &&
-                checkPotion(potionMeta.getBasePotionType().getPotionEffects());
+                arePotionsBlocked(potionMeta.getBasePotionType().getPotionEffects());
     }
 
     public static boolean isMaterialBlocked(Material material){
@@ -50,7 +50,7 @@ public class BlockManager {
         return blockedAmplifier != null && blockedAmplifier <= amplifier;
     }
 
-    public static boolean areEnchantmentsBlocked(Map<Enchantment,Integer> enchantmentsMap){
+    public static boolean areEnchantmentsBlocked(@NotNull Map<Enchantment,Integer> enchantmentsMap){
         for (Map.Entry<Enchantment,Integer> enchantmentEntry : enchantmentsMap.entrySet()) {
             Enchantment enchantment = enchantmentEntry.getKey();
             Integer level = enchantmentEntry.getValue();
@@ -61,8 +61,7 @@ public class BlockManager {
         return false;
     }
 
-    public static boolean checkPotion(@Nullable List<PotionEffect> potionsList){
-        if (potionsList == null || potionsList.isEmpty()) return false;
+    public static boolean arePotionsBlocked(@NotNull List<PotionEffect> potionsList){
         for (PotionEffect potion : potionsList) {
             if (isPotionBlocked(potion)) {
                 return true;

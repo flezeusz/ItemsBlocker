@@ -1,6 +1,5 @@
 package pl.flezy.itemsblocker.listeners;
 
-import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,8 +10,8 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
-import pl.flezy.itemsblocker.ItemsBlocker;
 import pl.flezy.itemsblocker.manager.BlockManager;
+import pl.flezy.itemsblocker.manager.SmithingManager;
 
 import java.util.List;
 
@@ -94,12 +93,9 @@ public class BlockListener implements Listener {
 
     @EventHandler
     public void onSmith(SmithItemEvent event) {
-        if (event.getInventory().getResult() != null) {
-            Material result = event.getInventory().getResult().getType();
-            if (ItemsBlocker.getInstance().getData().blockNetherite &&
-            List.of(Material.NETHERITE_AXE,Material.NETHERITE_HOE,Material.NETHERITE_PICKAXE, Material.NETHERITE_SHOVEL,
-                    Material.NETHERITE_HELMET, Material.NETHERITE_CHESTPLATE, Material.NETHERITE_LEGGINGS,
-                    Material.NETHERITE_BOOTS, Material.NETHERITE_SWORD).contains(result)) {
+        if (SmithingManager.isNetheriteSmithingBlocked()) {
+            ItemStack resultItem = event.getInventory().getResult();
+            if (resultItem != null && SmithingManager.isNetheriteItem(resultItem)) {
                 event.setResult(Event.Result.DENY);
             }
         }
