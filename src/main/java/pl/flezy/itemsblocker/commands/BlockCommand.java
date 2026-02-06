@@ -3,18 +3,21 @@ package pl.flezy.itemsblocker.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffectType;
 import pl.flezy.itemsblocker.ItemsBlocker;
+import pl.flezy.itemsblocker.utils.MMUtils;
 
 @CommandAlias("itemsblocker|blocker")
 @CommandPermission("itemsblocker.command")
 public class BlockCommand extends BaseCommand {
 
     private final ItemsBlocker plugin = ItemsBlocker.getInstance();
+    private final MiniMessage mm = MiniMessage.miniMessage();
 
     @HelpCommand
     public void doHelp(CommandHelp help) {
@@ -26,12 +29,12 @@ public class BlockCommand extends BaseCommand {
 
     public void onItemAdd(CommandSender sender, Material material) {
         if (plugin.getData().blockedMaterials.contains(material)) {
-            sender.sendMessage("§cThis item is already blocked");
+            sender.sendMessage(mm.deserialize("<red>This item is already blocked"));
             return;
         }
         plugin.getData().blockedMaterials.add(material);
         plugin.getData().save();
-        sender.sendMessage("§eItem " + material.toString() + " has been blocked");
+        sender.sendMessage(mm.deserialize("<yellow>Item " + material.toString() + " has been blocked"));
     }
 
     @Subcommand("item remove")
@@ -39,24 +42,24 @@ public class BlockCommand extends BaseCommand {
     @CommandCompletion("@itemsRemove")
     public void onItemRemove(CommandSender sender, Material material) {
         if (!plugin.getData().blockedMaterials.contains(material)) {
-            sender.sendMessage("§cThis item is not blocked");
+            sender.sendMessage(mm.deserialize("<red>This item is not blocked"));
             return;
         }
         plugin.getData().blockedMaterials.remove(material);
         plugin.getData().save();
-        sender.sendMessage("§eItem " + material.toString() + " is no longer blocked");
+        sender.sendMessage(mm.deserialize("<yellow>Item " + material.toString() + " is no longer blocked"));
     }
 
     @Subcommand("item list")
     @Description("Displays a list of all blocked items")
     public void onItemList(CommandSender sender) {
         if (plugin.getData().blockedMaterials.isEmpty()) {
-            sender.sendMessage("§cNo blocked items");
+            sender.sendMessage(mm.deserialize("<red>No blocked items"));
             return;
         }
-        sender.sendMessage("§eBlocked items:");
-        plugin.getData().blockedMaterials.forEach(mat ->
-                sender.sendMessage("§8-§7 " + mat.name())
+        sender.sendMessage(mm.deserialize("<yellow>Blocked items:"));
+        plugin.getData().blockedMaterials.forEach(material ->
+                sender.sendMessage(mm.deserialize("<dark_gray>-<gray> " + material.name()))
         );
     }
 
@@ -66,14 +69,14 @@ public class BlockCommand extends BaseCommand {
     public void onEnchantmentAdd(CommandSender sender, String enchantName, @Optional Integer level) {
         Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
-            sender.sendMessage("§cThis enchantment does not exist");
+            sender.sendMessage(mm.deserialize("<red>This enchantment does not exist"));
             return;
         }
 
         if (level == null) level = 1;
-        plugin.getData().blockedEnchants.put(enchant, level);
+        plugin.getData().blockedEnchantments.put(enchant, level);
         plugin.getData().save();
-        sender.sendMessage("§eEnchantment " + enchant.getKey() + " has been blocked from level " + level);
+        sender.sendMessage(mm.deserialize("<yellow>Enchantment " + enchant.getKey() + " has been blocked from level " + level));
     }
 
     @Subcommand("enchantment remove")
@@ -82,33 +85,33 @@ public class BlockCommand extends BaseCommand {
     public void onEnchantmentRemove(CommandSender sender, String enchantName) {
         Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
         if (enchant == null) {
-            sender.sendMessage("§cThis enchantment does not exist");
+            sender.sendMessage(mm.deserialize("<red>This enchantment does not exist"));
             return;
         }
 
-        if (!plugin.getData().blockedEnchants.containsKey(enchant)) {
-            sender.sendMessage("§cThis enchantment is not blocked");
+        if (!plugin.getData().blockedEnchantments.containsKey(enchant)) {
+            sender.sendMessage(mm.deserialize("<red>This enchantment is not blocked"));
             return;
         }
 
-        plugin.getData().blockedEnchants.remove(enchant);
+        plugin.getData().blockedEnchantments.remove(enchant);
         plugin.getData().save();
-        sender.sendMessage("§eEnchantment " + enchant.getKey() + " is no longer blocked");
+        sender.sendMessage(mm.deserialize("<yellow>Enchantment " + enchant.getKey() + " is no longer blocked"));
     }
 
     @Subcommand("enchantment list")
     @Description("Shows all blocked enchantments with levels")
     public void onEnchantmentList(CommandSender sender) {
-        if (plugin.getData().blockedEnchants.isEmpty()) {
-            sender.sendMessage("§cNo blocked enchantments");
+        if (plugin.getData().blockedEnchantments.isEmpty()) {
+            sender.sendMessage(mm.deserialize("<red>No blocked enchantments"));
             return;
         }
-        sender.sendMessage("§eBlocked enchantments:");
-        plugin.getData().blockedEnchants
+        sender.sendMessage(mm.deserialize("<yellow>Blocked enchantments:"));
+        plugin.getData().blockedEnchantments
                 .forEach((key, value) -> {
-                    String enchantName = key.getKey().getKey();
+                    String enchantmentName = key.getKey().getKey();
                     int level = value;
-                    sender.sendMessage("§8-§7 " + enchantName + "  " + level);
+                    sender.sendMessage(mm.deserialize("<dark_gray>-<gray> " + enchantmentName + "  " + level));
                 });
     }
 
@@ -118,14 +121,14 @@ public class BlockCommand extends BaseCommand {
     public void onPotionAdd(CommandSender sender, String potionName, @Optional Integer level) {
         PotionEffectType potion = PotionEffectType.getByKey(NamespacedKey.minecraft(potionName));
         if (potion == null) {
-            sender.sendMessage("§cThis potion effect does not exist");
+            sender.sendMessage(mm.deserialize("<red>This potion effect does not exist"));
             return;
         }
 
         if (level == null) level = 1;
         plugin.getData().blockedPotions.put(potion, level);
         plugin.getData().save();
-        sender.sendMessage("§ePotion effect " + potion.getKey() + " has been blocked from level " + level);
+        sender.sendMessage(mm.deserialize("<yellow>Potion effect " + potion.getKey() + " has been blocked from level " + level));
     }
 
     @Subcommand("potion remove")
@@ -134,34 +137,34 @@ public class BlockCommand extends BaseCommand {
     public void onPotionRemove(CommandSender sender, String potionName) {
         PotionEffectType potion = PotionEffectType.getByKey(NamespacedKey.minecraft(potionName));
         if (potion == null) {
-            sender.sendMessage("§cThis potion effect does not exist");
+            sender.sendMessage(mm.deserialize("<red>This potion effect does not exist"));
             return;
         }
 
         if (!plugin.getData().blockedPotions.containsKey(potion)) {
-            sender.sendMessage("§cThis potion effect is not blocked");
+            sender.sendMessage(mm.deserialize("<red>This potion effect is not blocked"));
             return;
         }
 
         plugin.getData().blockedPotions.remove(potion);
         plugin.getData().save();
-        sender.sendMessage("§ePotion effect " + potion.getKey() + " is no longer blocked");
+        sender.sendMessage(mm.deserialize("<yellow>Potion effect " + potion.getKey() + " is no longer blocked"));
     }
 
     @Subcommand("potion list")
     @Description("Shows all blocked potion effects")
     public void onPotionList(CommandSender sender) {
         if (plugin.getData().blockedPotions.isEmpty()) {
-            sender.sendMessage("§cNo blocked potion effects");
+            sender.sendMessage(mm.deserialize("<red>No blocked potion effects"));
             return;
         }
-        sender.sendMessage("§eBlocked potions effects:");
+        sender.sendMessage(mm.deserialize("<yellow>Blocked potions effects:"));
 
         plugin.getData().blockedPotions
                 .forEach((key, value) -> {
                     String potionName = key.getKey().getKey();
                     int level = value;
-                    sender.sendMessage("§8-§7 " + potionName + "  " + level);
+                    sender.sendMessage(mm.deserialize("<dark_gray>-<gray> " + potionName + "  " + level));
                 });
     }
 
@@ -170,14 +173,22 @@ public class BlockCommand extends BaseCommand {
     @CommandCompletion("block|allow")
     public void netherite(CommandSender sender, @Values("block|allow") String action) {
         if (action.equalsIgnoreCase("block")) {
+            if (plugin.getData().blockNetherite) {
+                sender.sendMessage(mm.deserialize("<red>Smithing netherite items is already blocked"));
+                return;
+            }
             plugin.getData().blockNetherite = true;
             plugin.getData().save();
-            sender.sendMessage("§eSmithing netherite items is now blocked");
+            sender.sendMessage(mm.deserialize("<yellow>Smithing netherite items is now blocked"));
         }
         else if (action.equalsIgnoreCase("allow")) {
-            plugin.getData().blockNetherite = true;
+            if (!plugin.getData().blockNetherite) {
+                sender.sendMessage(mm.deserialize("<red>Smithing netherite items is already allowed"));
+                return;
+            }
+            plugin.getData().blockNetherite = false;
             plugin.getData().save();
-            sender.sendMessage("§eSmithing netherite items is now allowed");
+            sender.sendMessage(mm.deserialize("<yellow>Smithing netherite items is now allowed"));
         }
     }
 }

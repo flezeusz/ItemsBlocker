@@ -53,7 +53,7 @@ public final class ItemsBlocker extends JavaPlugin {
                         .collect(Collectors.toSet()));
 
         manager.getCommandCompletions().registerCompletion("enchantmentsRemove", c ->
-                data.blockedEnchants
+                data.blockedEnchantments
                         .keySet().stream()
                         .map(Enchantment::getKey)
                         .map(NamespacedKey::getKey)

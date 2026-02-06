@@ -7,45 +7,64 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 import pl.flezy.itemsblocker.ItemsBlocker;
 
 import java.util.List;
 import java.util.Map;
 
 public class BlockManager {
+
     public static boolean isBlocked(ItemStack item){
         if (item == null) return false;
-        Material itemType = item.getType();
-        if (ItemsBlocker.getInstance().getData().blockedMaterials.contains(itemType)) return true;
+
+        if (isMaterialBlocked(item.getType())) return true;
 
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta == null) return false;
 
         if (itemMeta instanceof EnchantmentStorageMeta enchantmentStorageMeta &&
-                checkEnchant(enchantmentStorageMeta.getStoredEnchants()))
+                areEnchantmentsBlocked(enchantmentStorageMeta.getStoredEnchants()))
             return true;
 
-        if (checkEnchant(itemMeta.getEnchants()))
+        if (areEnchantmentsBlocked(itemMeta.getEnchants()))
             return true;
 
         return itemMeta instanceof PotionMeta potionMeta &&
                 checkPotion(potionMeta.getBasePotionType().getPotionEffects());
     }
 
-    public static boolean checkEnchant(Map<Enchantment,Integer> enchants){
-        for (Map.Entry<Enchantment,Integer> enchant : enchants.entrySet()) {
-            if (ItemsBlocker.getInstance().getData().blockedEnchants.containsKey(enchant.getKey()) &&
-                    ItemsBlocker.getInstance().getData().blockedEnchants.get(enchant.getKey()) <= enchant.getValue())
+    public static boolean isMaterialBlocked(Material material){
+        return ItemsBlocker.getInstance().getData().blockedMaterials.contains(material);
+    }
+
+    public static boolean isEnchantmentBlocked(Enchantment enchantment, Integer level) {
+        Integer blockedLevel = ItemsBlocker.getInstance().getData().blockedEnchantments.get(enchantment);
+        return blockedLevel != null && blockedLevel <= level;
+    }
+
+    public static boolean isPotionBlocked(PotionEffect potionEffect) {
+        int amplifier = potionEffect.getAmplifier();
+        Integer blockedAmplifier = ItemsBlocker.getInstance().getData().blockedPotions.get(potionEffect.getType());
+        return blockedAmplifier != null && blockedAmplifier <= amplifier;
+    }
+
+    public static boolean areEnchantmentsBlocked(Map<Enchantment,Integer> enchantmentsMap){
+        for (Map.Entry<Enchantment,Integer> enchantmentEntry : enchantmentsMap.entrySet()) {
+            Enchantment enchantment = enchantmentEntry.getKey();
+            Integer level = enchantmentEntry.getValue();
+            if (isEnchantmentBlocked(enchantment, level)) {
                 return true;
+            }
         }
         return false;
     }
 
-    public static boolean checkPotion(List<PotionEffect> potions){
-        if (potions == null || potions.isEmpty()) return false;
-        for (PotionEffect potion : potions) {
-            if (ItemsBlocker.getInstance().getData().blockedPotions.containsKey(potion.getType()) &&
-                    ItemsBlocker.getInstance().getData().blockedPotions.get(potion.getType()) - 1 <= potion.getAmplifier()) {
+    public static boolean checkPotion(@Nullable List<PotionEffect> potionsList){
+        if (potionsList == null || potionsList.isEmpty()) return false;
+        for (PotionEffect potion : potionsList) {
+            if (isPotionBlocked(potion)) {
                 return true;
             }
         }

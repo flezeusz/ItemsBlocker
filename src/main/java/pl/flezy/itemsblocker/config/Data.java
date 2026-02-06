@@ -13,9 +13,9 @@ import java.util.Set;
 public class Data extends OkaeriConfig {
     public Set<Material> blockedMaterials = new HashSet<>();
 
-    public Map<Enchantment,Integer> blockedEnchants = new HashMap<>();
+    public Map<Enchantment, Integer> blockedEnchantments = new HashMap<>();
 
-    public Map<PotionEffectType,Integer> blockedPotions = new HashMap<>();
+    public Map<PotionEffectType, Integer> blockedPotions = new HashMap<>();
 
     public boolean blockNetherite = false;
 
