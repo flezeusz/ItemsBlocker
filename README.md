@@ -20,7 +20,12 @@
 
 ## Commands
 
-* `/blocker` or `/itemsblocker` - Main command alias.  Requires the `itemsblocker.command` permission.
+All commands require the `itemsblocker.command` permission.
+
+### Main command allies
+* `block`
+* `/blocker`
+* `/itemsblocker`
 
 ### Subcommands
 
