@@ -11,7 +11,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffectType;
 import pl.flezy.itemsblocker.ItemsBlocker;
 
-@CommandAlias("itemsblocker|blocker")
+@CommandAlias("itemsblocker|blocker|block")
 @CommandPermission("itemsblocker.command")
 public class BlockCommand extends BaseCommand {
 
