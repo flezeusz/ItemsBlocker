@@ -23,7 +23,7 @@
 All commands require the `itemsblocker.command` permission.
 
 ### Main command allies
-* `block`
+* `/block`
 * `/blocker`
 * `/itemsblocker`
 
