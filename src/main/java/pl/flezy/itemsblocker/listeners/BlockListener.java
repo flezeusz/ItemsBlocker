@@ -1,18 +1,20 @@
 package pl.flezy.itemsblocker.listeners;
 
 import io.papermc.paper.event.block.BlockPreDispenseEvent;
+import io.papermc.paper.event.player.PlayerInventorySlotChangeEvent;
 import org.bukkit.entity.Item;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.VillagerAcquireTradeEvent;
 import org.bukkit.event.inventory.*;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import pl.flezy.itemsblocker.manager.BlockManager;
 import pl.flezy.itemsblocker.manager.SmithingManager;
 
@@ -31,10 +33,37 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler
+    public void onSlotChange(PlayerInventorySlotChangeEvent event) {
+        if (event.getPlayer().hasPermission("itemsblocker.bypass")) return;
+
+        ItemStack item = event.getNewItemStack();
+        if (BlockManager.isBlocked(item)) {
+            item.setAmount(0);
+        }
+    }
+
+    @EventHandler
     public void onCraft(PrepareItemCraftEvent event){
         ItemStack item = event.getInventory().getResult();
         if (BlockManager.isBlocked(item)) {
             event.getInventory().setResult(null);
+        }
+    }
+
+    @EventHandler
+    public void onItemHeld(PlayerItemHeldEvent event) {
+        if (event.getPlayer().hasPermission("itemsblocker.bypass")) return;
+
+        PlayerInventory inventory = event.getPlayer().getInventory();
+
+        ItemStack newItem = inventory.getItem(event.getNewSlot());
+        if (BlockManager.isBlocked(newItem)) {
+            newItem.setAmount(0);
+        }
+
+        ItemStack oldItem = inventory.getItem(event.getPreviousSlot());
+        if (BlockManager.isBlocked(oldItem)) {
+            oldItem.setAmount(0);
         }
     }
 
@@ -101,12 +130,34 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler
-    public void onEntityPickUp(EntityPickupItemEvent event){
+    public void onEntityPickup(EntityPickupItemEvent event){
         if (event.getEntity().hasPermission("itemsblocker.bypass")) return;
 
         ItemStack item = event.getItem().getItemStack();
         if (BlockManager.isBlocked(item)) {
+            event.setCancelled(true);
             event.getItem().remove();
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDrop(PlayerDropItemEvent event){
+        if (event.getPlayer().hasPermission("itemsblocker.bypass")) return;
+
+        Item item = event.getItemDrop();
+        ItemStack itemStack = item.getItemStack();
+        if (BlockManager.isBlocked(itemStack)) {
+            itemStack.setAmount(0);
+            item.remove();
+        }
+    }
+
+    @EventHandler
+    public void onEntityDrop(EntityDropItemEvent event){
+        Item item = event.getItemDrop();
+        ItemStack itemStack = item.getItemStack();
+        if (BlockManager.isBlocked(itemStack)) {
+            item.remove();
         }
     }
 
