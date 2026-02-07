@@ -1,8 +1,11 @@
 package pl.flezy.itemsblocker.listeners;
 
+import io.papermc.paper.event.block.BlockPreDispenseEvent;
+import org.bukkit.entity.Item;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.VillagerAcquireTradeEvent;
@@ -19,6 +22,8 @@ public class BlockListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
+        if (event.getPlayer().hasPermission("itemsblocker.bypass")) return;
+
         ItemStack item = event.getItem();
         if (BlockManager.isBlocked(item)) {
             item.setAmount(0);
@@ -52,11 +57,32 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler
+    public void onPreDispense(BlockPreDispenseEvent event) {
+        ItemStack item = event.getItemStack();
+        if (BlockManager.isBlocked(item)) {
+            event.setCancelled(true);
+            item.setAmount(0);
+        }
+    }
+
+    @EventHandler
+    public void onBlockDrop(BlockDropItemEvent event) {
+        for (Item item : event.getItems()) {
+            ItemStack itemStack = item.getItemStack();
+            if (BlockManager.isBlocked(itemStack)) {
+                item.remove();
+            }
+        }
+    }
+
+    @EventHandler
     public void onInventoryClick(InventoryClickEvent event){
         if (event.getWhoClicked().hasPermission("itemsblocker.bypass")) return;
 
         ItemStack item = event.getCurrentItem();
-        if (BlockManager.isBlocked(item)) item.setAmount(0);
+        if (BlockManager.isBlocked(item)) {
+            item.setAmount(0);
+        }
     }
 
     @EventHandler
@@ -94,8 +120,8 @@ public class BlockListener implements Listener {
     @EventHandler
     public void onSmith(SmithItemEvent event) {
         if (SmithingManager.isNetheriteSmithingBlocked()) {
-            ItemStack resultItem = event.getInventory().getResult();
-            if (resultItem != null && SmithingManager.isNetheriteItem(resultItem)) {
+            ItemStack item = event.getInventory().getResult();
+            if (item != null && SmithingManager.isNetheriteItem(item)) {
                 event.setResult(Event.Result.DENY);
             }
         }

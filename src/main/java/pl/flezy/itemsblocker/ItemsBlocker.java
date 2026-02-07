@@ -1,5 +1,6 @@
 package pl.flezy.itemsblocker;
 
+import co.aikar.commands.BaseCommand;
 import co.aikar.commands.PaperCommandManager;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -8,13 +9,13 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffectType;
 import pl.flezy.itemsblocker.commands.BlockCommand;
+import pl.flezy.itemsblocker.compat.CrafterCompat;
 import pl.flezy.itemsblocker.config.ConfigurationFactory;
 import pl.flezy.itemsblocker.config.Data;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.flezy.itemsblocker.listeners.BlockListener;
 
 import java.io.File;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public final class ItemsBlocker extends JavaPlugin {
@@ -28,13 +29,18 @@ public final class ItemsBlocker extends JavaPlugin {
         instance = this;
         this.data = ConfigurationFactory.createDataConfiguration(this.dataConfigurationFile);
 
-        registerCommands();
-        registerListeners(List.of(
+        registerListeners(
                 new BlockListener()
-        ));
+        );
+
+        registerCommands(
+                new BlockCommand()
+        );
+
+        CrafterCompat.registerIfPresent(this);
     }
 
-    private void registerCommands() {
+    private void registerCommands(BaseCommand... commandList) {
         PaperCommandManager manager = new PaperCommandManager(this);
 
         manager.enableUnstableAPI("help");
@@ -72,11 +78,15 @@ public final class ItemsBlocker extends JavaPlugin {
                         .map(Material::name)
                         .collect(Collectors.toSet()));
 
-        manager.registerCommand(new BlockCommand());
+        for (BaseCommand command : commandList) {
+            manager.registerCommand(command);
+        }
     }
 
-    private void registerListeners(List<Listener> listeners) {
-        listeners.forEach(listener -> getServer().getPluginManager().registerEvents(listener,this));
+    private void registerListeners(Listener... listenersList){
+        for (Listener listener : listenersList){
+            getServer().getPluginManager().registerEvents(listener,this);
+        }
     }
 
     public static ItemsBlocker getInstance() {

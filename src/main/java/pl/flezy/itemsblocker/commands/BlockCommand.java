@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffectType;
 import pl.flezy.itemsblocker.ItemsBlocker;
-import pl.flezy.itemsblocker.utils.MMUtils;
 
 @CommandAlias("itemsblocker|blocker")
 @CommandPermission("itemsblocker.command")
@@ -76,7 +75,7 @@ public class BlockCommand extends BaseCommand {
         if (level == null) level = 1;
         plugin.getData().blockedEnchantments.put(enchant, level);
         plugin.getData().save();
-        sender.sendMessage(mm.deserialize("<yellow>Enchantment " + enchant.getKey() + " has been blocked from level " + level));
+        sender.sendMessage(mm.deserialize("<yellow>Enchantment " + enchant.getKey().getKey() + " has been blocked from level " + level));
     }
 
     @Subcommand("enchantment remove")
@@ -96,7 +95,7 @@ public class BlockCommand extends BaseCommand {
 
         plugin.getData().blockedEnchantments.remove(enchant);
         plugin.getData().save();
-        sender.sendMessage(mm.deserialize("<yellow>Enchantment " + enchant.getKey() + " is no longer blocked"));
+        sender.sendMessage(mm.deserialize("<yellow>Enchantment " + enchant.getKey().getKey() + " is no longer blocked"));
     }
 
     @Subcommand("enchantment list")
@@ -111,24 +110,24 @@ public class BlockCommand extends BaseCommand {
                 .forEach((key, value) -> {
                     String enchantmentName = key.getKey().getKey();
                     int level = value;
-                    sender.sendMessage(mm.deserialize("<dark_gray>-<gray> " + enchantmentName + "  " + level));
+                    sender.sendMessage(mm.deserialize("<dark_gray>-<gray> " + enchantmentName + " " + level));
                 });
     }
 
     @Subcommand("potion add")
     @Description("Adds a potion effect to the list of blocked effects")
-    @CommandCompletion("@potionEffects [level]")
-    public void onPotionAdd(CommandSender sender, String potionName, @Optional Integer level) {
+    @CommandCompletion("@potionEffects [amplifier]")
+    public void onPotionAdd(CommandSender sender, String potionName, @Optional Integer amplifier) {
         PotionEffectType potion = PotionEffectType.getByKey(NamespacedKey.minecraft(potionName));
         if (potion == null) {
             sender.sendMessage(mm.deserialize("<red>This potion effect does not exist"));
             return;
         }
 
-        if (level == null) level = 1;
-        plugin.getData().blockedPotions.put(potion, level);
+        if (amplifier == null) amplifier = 0;
+        plugin.getData().blockedPotions.put(potion, amplifier - 1);
         plugin.getData().save();
-        sender.sendMessage(mm.deserialize("<yellow>Potion effect " + potion.getKey() + " has been blocked from level " + level));
+        sender.sendMessage(mm.deserialize("<yellow>Potion effect " + potion.getKey().getKey() + " has been blocked from amplifier " + amplifier));
     }
 
     @Subcommand("potion remove")
@@ -148,7 +147,7 @@ public class BlockCommand extends BaseCommand {
 
         plugin.getData().blockedPotions.remove(potion);
         plugin.getData().save();
-        sender.sendMessage(mm.deserialize("<yellow>Potion effect " + potion.getKey() + " is no longer blocked"));
+        sender.sendMessage(mm.deserialize("<yellow>Potion effect " + potion.getKey().getKey() + " is no longer blocked"));
     }
 
     @Subcommand("potion list")
@@ -163,8 +162,8 @@ public class BlockCommand extends BaseCommand {
         plugin.getData().blockedPotions
                 .forEach((key, value) -> {
                     String potionName = key.getKey().getKey();
-                    int level = value;
-                    sender.sendMessage(mm.deserialize("<dark_gray>-<gray> " + potionName + "  " + level));
+                    int amplifier = value + 1;
+                    sender.sendMessage(mm.deserialize("<dark_gray>-<gray> " + potionName + " " + amplifier));
                 });
     }
 

@@ -10,4 +10,4 @@ permissions:
     default: op
   itemsblocker.bypass:
     description: Permission to bypass items blocks
-    default: op
+    default: false
