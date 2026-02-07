@@ -14,6 +14,7 @@ import pl.flezy.itemsblocker.config.ConfigurationFactory;
 import pl.flezy.itemsblocker.config.Data;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.flezy.itemsblocker.listeners.BlockListener;
+import pl.flezy.itemsblocker.listeners.SmithListener;
 
 import java.io.File;
 import java.util.stream.Collectors;
@@ -30,7 +31,8 @@ public final class ItemsBlocker extends JavaPlugin {
         this.data = ConfigurationFactory.createDataConfiguration(this.dataConfigurationFile);
 
         registerListeners(
-                new BlockListener()
+                new BlockListener(),
+                new SmithListener()
         );
 
         registerCommands(
