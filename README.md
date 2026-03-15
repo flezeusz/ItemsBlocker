@@ -22,7 +22,7 @@
 
 All commands require the `itemsblocker.command` permission.
 
-### Main command allies
+### Main command aliases
 * `/block`
 * `/blocker`
 * `/itemsblocker`
@@ -55,7 +55,7 @@ All commands require the `itemsblocker.command` permission.
 
 #### Netherite Crafting Management
 
-* `/blocker netherite <true|false>`: Enables/disables blocking of netherite item smithing.
+* `/blocker netherite <allow|block>`: Allows/blocks netherite item smithing.
 
 ## Permissions
 
