@@ -22,7 +22,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Setup gradle cache
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/actions/setup-gradle@v6
         with:
           save-generated-gradle-jars: false
           save-local-build-cache: false
