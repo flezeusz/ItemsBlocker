@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT'
+    compileOnly 'io.papermc.paper:paper-api:26.2.build.123-stable'
 
     implementation 'eu.okaeri:okaeri-configs-yaml-bukkit:5.0.5'
     implementation 'eu.okaeri:okaeri-configs-serdes-bukkit:5.0.5'
