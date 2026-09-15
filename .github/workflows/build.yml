@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: 'adopt'
-          java-version: 17
+          java-version: 17.0.20+101
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Setup gradle cache
